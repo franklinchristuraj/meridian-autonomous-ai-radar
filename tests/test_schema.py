@@ -4,17 +4,20 @@ Requires a running Weaviate instance at localhost:8080.
 """
 import uuid
 import pytest
+from src.db.client import get_client
 from src.db.schema import init_schema
 
 
 COLLECTION_NAMES = ["Signals", "Patterns", "Hypotheses", "Feedback", "Briefings"]
 
 
-@pytest.fixture(scope="module", autouse=False)
-def schema_ready(weaviate_client):
-    """Ensure schema exists before running tests."""
-    init_schema(weaviate_client)
-    yield weaviate_client
+@pytest.fixture(scope="module")
+def schema_ready():
+    """Open a module-scoped Weaviate client, init schema, yield client, close."""
+    client = get_client()
+    init_schema(client)
+    yield client
+    client.close()
 
 
 def test_collections_exist(schema_ready):
