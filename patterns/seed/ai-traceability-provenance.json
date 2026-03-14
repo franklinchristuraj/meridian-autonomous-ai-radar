@@ -1,0 +1,14 @@
+{
+  "name": "AI Traceability and Provenance",
+  "description": "End-to-end lineage tracking for AI outputs — from training data through model decisions to downstream actions. Covers data provenance, decision audit trails, attribution chains, and reproducibility guarantees. Critical for debugging production failures and meeting regulatory requirements where you must explain why the system did what it did.",
+  "keywords": ["traceability", "provenance", "lineage", "audit trail", "attribution", "reproducibility"],
+  "maturity": "emerging",
+  "contrarian_take": "Most traceability work focuses on training data lineage, which is solved-enough. The unsolved frontier is runtime decision traceability — tracing a specific LLM output through the full chain of retrievals, tool calls, and agent handoffs that produced it. Papers that only trace data lineage are rehashing 2022 problems.",
+  "related_patterns": ["LLM Observability and Tracing", "AI Governance and Compliance", "Agent Evaluation and Benchmarking"],
+  "vault_source": "",
+  "example_signals": [
+    "ChainTrace: End-to-End Provenance Tracking for Multi-Step LLM Agent Workflows",
+    "Reproducibility in RAG Systems: Deterministic Retrieval Pipelines for Auditable AI",
+    "Decision Provenance Graphs: Explaining Compound AI System Outputs Through Causal Attribution"
+  ]
+}

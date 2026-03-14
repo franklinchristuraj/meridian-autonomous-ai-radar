@@ -1,0 +1,14 @@
+{
+  "name": "Visual Orchestration Platforms",
+  "description": "Low-code and visual workflow builders for AI pipelines — drag-and-drop agent composition, visual debugging, and no-code integration of LLM capabilities. Includes platforms like Make, n8n, Langflow, and Flowise. The pattern matters because it determines who can build and maintain AI workflows — just engineers, or also domain experts and operators.",
+  "keywords": ["visual orchestration", "low-code AI", "workflow builder", "Make", "Langflow", "no-code agents"],
+  "maturity": "established",
+  "contrarian_take": "Visual orchestration tools are converging on the same node-graph paradigm that failed for ETL (see: Informatica graveyards). The winners will be platforms that stay thin — trigger and glue, not execution — letting real runtimes (Claude Code, dedicated agents) handle the complex logic. The moment a visual tool tries to be the agent runtime, it becomes the bottleneck.",
+  "related_patterns": ["Multi-Agent Orchestration", "Tool Use and Function Calling", "LLM Cost Optimization"],
+  "vault_source": "",
+  "example_signals": [
+    "Beyond Node Graphs: Comparing Visual AI Orchestration Paradigms for Production Workflows",
+    "Langflow vs Code-First Agents: A Performance and Maintainability Comparison",
+    "The Thin Orchestration Pattern: Why Trigger-Only Platforms Outperform Full-Stack Visual AI Builders"
+  ]
+}

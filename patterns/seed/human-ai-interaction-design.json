@@ -1,0 +1,14 @@
+{
+  "name": "Human-AI Interaction Design",
+  "description": "Design patterns for the interface between humans and AI systems — feedback loops, trust calibration, progressive disclosure of AI reasoning, and collaborative workflows where humans and AI have complementary roles. Goes beyond simple chat interfaces to structured interaction models that improve both AI output quality and human decision-making.",
+  "keywords": ["human-AI interaction", "trust calibration", "feedback loops", "collaborative AI", "UX for AI", "explainability"],
+  "maturity": "emerging",
+  "contrarian_take": "The AI industry is fixated on making AI more autonomous, but the highest-value research is in the opposite direction — making humans better collaborators with AI. Papers about autonomy benchmarks are a dime a dozen. Papers that show measurable improvements in human decision quality when paired with AI — those are the signal worth tracking.",
+  "related_patterns": ["Human-in-the-Loop Agent Design", "AI Governance and Compliance", "LLM Evaluation Frameworks"],
+  "vault_source": "",
+  "example_signals": [
+    "Trust Calibration in AI-Assisted Decision Making: When Users Should Override Model Recommendations",
+    "Progressive Disclosure of AI Reasoning: Effects on User Trust and Task Performance",
+    "Collaborative Intelligence: Designing Feedback Loops That Improve Both Human and AI Performance Over Time"
+  ]
+}

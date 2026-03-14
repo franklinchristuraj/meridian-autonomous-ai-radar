@@ -1,0 +1,14 @@
+{
+  "name": "AI Governance and Compliance",
+  "description": "Frameworks and tooling for governing AI systems across their lifecycle — model cards, risk assessments, audit trails, and regulatory alignment (EU AI Act, NIST AI RMF). The real challenge is making governance operational rather than checkbox theatre. Most orgs bolt it on post-deployment; the ones worth watching embed it in the development pipeline.",
+  "keywords": ["governance", "compliance", "EU AI Act", "NIST AI RMF", "model cards", "responsible AI"],
+  "maturity": "emerging",
+  "contrarian_take": "Governance frameworks that ship as PDFs and review boards are already dead. The only governance that scales is governance-as-code — automated policy checks in CI/CD, machine-readable model cards, programmatic audit trails. If a paper proposes yet another committee structure without tooling, it is noise.",
+  "related_patterns": ["LLM Observability and Tracing", "LLM Evaluation Frameworks", "Human-in-the-Loop Agent Design"],
+  "vault_source": "",
+  "example_signals": [
+    "Operationalizing AI Governance: A Framework for Continuous Compliance in Production ML Systems",
+    "Model Cards 2.0: Machine-Readable Documentation for Automated AI Auditing",
+    "EU AI Act Compliance Toolkits: A Comparative Analysis of Open-Source Implementations"
+  ]
+}
