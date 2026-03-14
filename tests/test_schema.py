@@ -1,6 +1,6 @@
 """
 Round-trip integration tests for all 5 Weaviate collections.
-Requires a running Weaviate instance at localhost:8080.
+Requires a running Weaviate instance (configured via .env).
 """
 import uuid
 import pytest
