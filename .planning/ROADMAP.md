@@ -28,7 +28,11 @@ Decimal phases appear between their surrounding integers in numeric order.
   2. A Make.com scenario fires an HTTP POST to the FastAPI trigger endpoint and receives a 202 response within the timeout window
   3. Claude Code CLI is installed on the VPS, authenticated, and a headless `claude -p` invocation with `--output-format json` returns a parseable response
   4. At least 15 hand-crafted patterns covering LLMOps, agent architectures, RAG, evaluation, and tool use are queryable in Weaviate with example signals attached
-**Plans**: TBD
+**Plans**: 3 plans
+Plans:
+- [ ] 01-01-PLAN.md — Project skeleton, Weaviate schema, round-trip tests (INFRA-01)
+- [ ] 01-02-PLAN.md — FastAPI trigger endpoint, Claude CLI wrapper (INFRA-03, INFRA-04)
+- [ ] 01-03-PLAN.md — Pattern library bootstrap with 15+ seed patterns (INFRA-02)
 
 ### Phase 2: Scout Pipeline
 **Goal**: Every morning, ArXiv papers from AI/ML categories are fetched, scored against the pattern library, routed through the three-tier gate, and written to Weaviate — reliably and cheaply
@@ -50,7 +54,6 @@ Decimal phases appear between their surrounding integers in numeric order.
   2. The Briefing agent generates a structured narrative brief (what's happening → time horizon → recommended action) and writes it to the Briefings collection in Weaviate
   3. Franklin can open the PWA and see today's briefing at `/briefing/today`, with BRIEF items visually prominent and a staleness warning if the pipeline has not run in over 25 hours
 **Plans**: TBD
-
 ### Phase 4: Vault Integration
 **Goal**: High-confidence VAULT-tier signals are automatically deposited as seeds in Franklin's Obsidian vault without any manual action required
 **Depends on**: Phase 3
@@ -60,7 +63,6 @@ Decimal phases appear between their surrounding integers in numeric order.
   2. No more than 3 seeds are deposited per day regardless of how many signals qualify
   3. Seeds created by Translator are queryable in the vault and link back to the originating Signal in Weaviate via a source reference in their frontmatter
 **Plans**: TBD
-
 ## Progress
 
 **Execution Order:**
