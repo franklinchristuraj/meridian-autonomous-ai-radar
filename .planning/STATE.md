@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: planning
-stopped_at: Phase 1 context gathered
-last_updated: "2026-03-13T22:20:05.998Z"
-last_activity: 2026-03-13 — Roadmap created, ready for Phase 1 planning
+status: executing
+stopped_at: Completed 01-03-PLAN.md
+last_updated: "2026-03-14T15:48:40.406Z"
+last_activity: 2026-03-14 — Completed plan 01-02 (FastAPI trigger + Claude runner)
 progress:
   total_phases: 4
-  completed_phases: 0
-  total_plans: 0
-  completed_plans: 0
-  percent: 0
+  completed_phases: 1
+  total_plans: 3
+  completed_plans: 3
+  percent: 20
 ---
 
 # Project State
@@ -25,12 +25,12 @@ See: .planning/PROJECT.md (updated 2026-03-13)
 
 ## Current Position
 
-Phase: 1 of 4 (Foundation)
-Plan: 2 of 3 in current phase
-Status: In progress
-Last activity: 2026-03-14 — Completed plan 01-02 (FastAPI trigger + Claude runner)
+Phase: 1 of 4 (Foundation) — COMPLETE
+Plan: 3 of 3 in current phase (all plans done)
+Status: Phase 1 complete, ready for Phase 2
+Last activity: 2026-03-14 — Completed plan 01-03 (seed pattern library, 16 patterns loaded into Weaviate)
 
-Progress: [██░░░░░░░░] 20%
+Progress: [██████████] 100% (Phase 1)
 
 ## Performance Metrics
 
@@ -43,11 +43,11 @@ Progress: [██░░░░░░░░] 20%
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| Phase 1 | 2 | ~30min | ~15min |
+| Phase 1 | 3 | ~55min | ~18min |
 
 **Recent Trend:**
-- Last 5 plans: —
-- Trend: —
+- Last 5 plans: 01-01 (~15min), 01-02 (~15min), 01-03 (~25min)
+- Trend: Steady
 
 *Updated after each plan completion*
 
@@ -63,6 +63,8 @@ Recent decisions affecting current work:
 - [Roadmap]: INTEL-01 (nearVector pattern matching) is scoped to Phase 2 (Scout) because it is the scoring mechanism, not a separate agent step.
 - [01-02]: APIKeyHeader auto_error=False used so missing key returns 403 (not 401) — consistent auth failure response.
 - [01-02]: invoke_claude uses subprocess.run with capture_output for clean mocking in unit tests (no local Claude CLI required).
+- [Phase 01-foundation]: Pattern coverage split: 8 Agentic Systems + 5 LLMOps + 3 RAG — front-loaded on Scout scoring domains
+- [Phase 01-foundation]: Idempotency via name-match lookup before insert (not upsert) — simpler and avoids Weaviate ID management
 
 ### Pending Todos
 
@@ -76,6 +78,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-14T00:00:00Z
-Stopped at: Completed 01-02-PLAN.md
-Resume file: .planning/phases/01-foundation/01-03-PLAN.md
+Last session: 2026-03-14T15:48:40.404Z
+Stopped at: Completed 01-03-PLAN.md
+Resume file: None

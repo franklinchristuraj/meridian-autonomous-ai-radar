@@ -10,7 +10,7 @@ Requirements for initial release. Each maps to roadmap phases.
 ### Infrastructure
 
 - [ ] **INFRA-01**: Weaviate collections deployed (signals, patterns, hypotheses, feedback) with locked schema
-- [ ] **INFRA-02**: Pattern library bootstrapped with 15-20 seed patterns in Weaviate with example signals
+- [x] **INFRA-02**: Pattern library bootstrapped with 15-20 seed patterns in Weaviate with example signals
 - [x] **INFRA-03**: Claude Code CLI installed and configured on VPS as agent runtime
 - [x] **INFRA-04**: FastAPI pipeline orchestrator deployed with Make.com webhook trigger endpoint and shared-secret auth
 
@@ -85,7 +85,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | Requirement | Phase | Status |
 |-------------|-------|--------|
 | INFRA-01 | Phase 1 | Pending |
-| INFRA-02 | Phase 1 | Pending |
+| INFRA-02 | Phase 1 | Complete |
 | INFRA-03 | Phase 1 | Complete |
 | INFRA-04 | Phase 1 | Complete |
 | INGEST-01 | Phase 2 | Pending |
