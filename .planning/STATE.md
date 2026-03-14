@@ -26,11 +26,11 @@ See: .planning/PROJECT.md (updated 2026-03-13)
 ## Current Position
 
 Phase: 1 of 4 (Foundation)
-Plan: 0 of TBD in current phase
-Status: Ready to plan
-Last activity: 2026-03-13 — Roadmap created, ready for Phase 1 planning
+Plan: 2 of 3 in current phase
+Status: In progress
+Last activity: 2026-03-14 — Completed plan 01-02 (FastAPI trigger + Claude runner)
 
-Progress: [░░░░░░░░░░] 0%
+Progress: [██░░░░░░░░] 20%
 
 ## Performance Metrics
 
@@ -43,7 +43,7 @@ Progress: [░░░░░░░░░░] 0%
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| - | - | - | - |
+| Phase 1 | 2 | ~30min | ~15min |
 
 **Recent Trend:**
 - Last 5 plans: —
@@ -61,6 +61,8 @@ Recent decisions affecting current work:
 - [Roadmap]: Pattern library (INFRA-02) is co-Phase-1 with infrastructure — not sequential. Running Scout against empty patterns produces misleading calibration data and kills confidence in the system.
 - [Roadmap]: Validation gate between Phase 2 and Phase 3 is mandatory. No Phase 3 work until Franklin reads 5 consecutive briefings and confirms directional signal quality.
 - [Roadmap]: INTEL-01 (nearVector pattern matching) is scoped to Phase 2 (Scout) because it is the scoring mechanism, not a separate agent step.
+- [01-02]: APIKeyHeader auto_error=False used so missing key returns 403 (not 401) — consistent auth failure response.
+- [01-02]: invoke_claude uses subprocess.run with capture_output for clean mocking in unit tests (no local Claude CLI required).
 
 ### Pending Todos
 
@@ -74,6 +76,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-13T22:20:05.996Z
-Stopped at: Phase 1 context gathered
-Resume file: .planning/phases/01-foundation/01-CONTEXT.md
+Last session: 2026-03-14T00:00:00Z
+Stopped at: Completed 01-02-PLAN.md
+Resume file: .planning/phases/01-foundation/01-03-PLAN.md
