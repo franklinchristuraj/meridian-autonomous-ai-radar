@@ -1,0 +1,14 @@
+{
+  "name": "Embedding Model Selection and Optimization",
+  "description": "Choosing and optimizing embedding models for semantic search and RAG systems: general-purpose models (OpenAI text-embedding-3, Cohere, voyage-ai) vs. domain-specific fine-tuned embeddings, quantization (scalar, binary) for storage and speed, matryoshka representation learning for variable-dimension embeddings, and late interaction models (ColBERT) for precision. Model choice determines retrieval ceiling.",
+  "keywords": ["embedding models", "sentence transformers", "embedding fine-tuning", "quantization", "matryoshka embeddings", "ColBERT", "MTEB"],
+  "maturity": "established",
+  "contrarian_take": "MTEB leaderboard rankings are the dominant selection heuristic but MTEB is biased toward English academic text — rankings shift significantly on domain-specific corpora (code, legal, medical, informal web text). Fine-tuning a smaller model on in-domain data consistently beats using a larger general model at a fraction of the inference cost, but most teams never benchmark their specific data. Picking the top MTEB model is a reasonable default that is systematically suboptimal.",
+  "related_patterns": ["Advanced RAG Architectures", "Knowledge Graph and LLM Integration", "LLM Cost Optimization"],
+  "vault_source": "",
+  "example_signals": [
+    "MTEB: Massive Text Embedding Benchmark",
+    "Matryoshka Representation Learning",
+    "ColBERT v2: Effective and Efficient Retrieval via Lightweight Late Interaction"
+  ]
+}

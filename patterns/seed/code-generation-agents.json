@@ -1,0 +1,14 @@
+{
+  "name": "Code Generation Agents",
+  "description": "Autonomous agents that write, execute, debug, and iterate on code to complete programming tasks. The feedback loop — write code, run it, observe error, revise — enables self-correction that purely generative LLMs cannot do. Coding agents are the highest-fidelity test of general agent capability because code has objective correctness criteria.",
+  "keywords": ["code generation", "autonomous coding", "self-repair", "code execution", "software agents", "SWE-bench"],
+  "maturity": "emerging",
+  "contrarian_take": "SWE-bench pass rates are the current proxy for coding agent quality, but the benchmark rewards narrow patch generation over deep architectural understanding. High SWE-bench scores do not generalize to novel codebases, refactoring tasks, or system design. Papers that evaluate agents on real-world repository complexity — not curated issues — tell a different and more sobering story.",
+  "related_patterns": ["Tool Use and Function Calling", "ReAct and Reasoning-Action Loops", "Agent Evaluation and Benchmarking"],
+  "vault_source": "",
+  "example_signals": [
+    "SWE-bench: Can Language Models Resolve Real-World GitHub Issues?",
+    "Devin: The First AI Software Engineer",
+    "SWE-agent: Agent-Computer Interfaces Enable Automated Software Engineering"
+  ]
+}

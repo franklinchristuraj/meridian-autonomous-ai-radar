@@ -1,0 +1,14 @@
+{
+  "name": "Agentic RAG",
+  "description": "Agents that dynamically decide what to retrieve, when to retrieve, how to reformulate queries, and whether retrieved content is sufficient — rather than executing a fixed retrieve-then-read pipeline. Agentic RAG can iterate on retrieval, decompose complex questions into sub-queries, and synthesize across multiple retrieval rounds. The boundary with standard RAG is the presence of a control loop.",
+  "keywords": ["agentic RAG", "dynamic retrieval", "query decomposition", "iterative retrieval", "retrieval planning"],
+  "maturity": "emerging",
+  "contrarian_take": "Agentic RAG papers frequently benchmark on single-hop QA datasets that naive RAG also handles well — the added complexity of the agent control loop buys nothing on those evals. The signal worth tracking is evaluation on multi-hop, cross-document reasoning tasks where the retrieval plan actually matters, and where latency and token cost of multiple retrieval rounds is honestly reported.",
+  "related_patterns": ["Advanced RAG Architectures", "Agent Memory Architectures", "Tool Use and Function Calling"],
+  "vault_source": "",
+  "example_signals": [
+    "FLARE: Active Retrieval Augmented Generation",
+    "IRCoT: Interleaving Retrieval with Chain-of-Thought Reasoning",
+    "Self-RAG: Learning to Retrieve, Generate, and Critique through Self-Reflection"
+  ]
+}

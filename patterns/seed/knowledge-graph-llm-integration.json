@@ -1,0 +1,14 @@
+{
+  "name": "Knowledge Graph and LLM Integration",
+  "description": "Combining structured knowledge graphs (entity-relation triples) with LLM reasoning to ground language generation in verifiable facts and enable multi-hop reasoning over structured data. GraphRAG uses community summaries and graph traversal to answer queries that require synthesizing across many documents. The hypothesis is that graph structure captures relationships that flat vector retrieval loses.",
+  "keywords": ["knowledge graph", "GraphRAG", "entity extraction", "graph retrieval", "structured knowledge", "KG-LLM"],
+  "maturity": "emerging",
+  "contrarian_take": "GraphRAG's performance gains over naive RAG are largely dataset-specific — they appear most on queries that require explicit multi-hop traversal, which is a minority of real-world questions. Knowledge graph construction at scale requires expensive entity extraction and relation linking pipelines that degrade on noisy, informal text. The build cost is rarely reported honestly next to the inference quality gains.",
+  "related_patterns": ["Advanced RAG Architectures", "Agentic RAG", "Embedding Model Selection"],
+  "vault_source": "",
+  "example_signals": [
+    "From Local to Global: A Graph RAG Approach to Query-Focused Summarization",
+    "KGRAG: Knowledge Graph-Enhanced Retrieval-Augmented Generation",
+    "Think-on-Graph: Deep and Responsible Reasoning of Large Language Model on Knowledge Graph"
+  ]
+}

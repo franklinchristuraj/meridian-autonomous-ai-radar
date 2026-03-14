@@ -1,0 +1,14 @@
+{
+  "name": "Agent Evaluation and Benchmarking",
+  "description": "Frameworks and metrics for measuring agent capabilities across task completion rate, efficiency, robustness, and safety. Unlike static NLP benchmarks, agent evaluation must account for multi-step trajectories, environment interaction costs, and failure recovery. Benchmark saturation is already a problem — top models cluster near ceiling on most published benchmarks within months of release.",
+  "keywords": ["agent evaluation", "benchmarking", "task success rate", "trajectory evaluation", "agent metrics"],
+  "maturity": "emerging",
+  "contrarian_take": "The agent benchmarking field has a Campbell's Law problem: as soon as a benchmark becomes widely used, labs optimize directly for it and the benchmark stops measuring general capability. Papers introducing new benchmarks are valuable only if they make contamination-resistant design explicit. Look for benchmarks with procedurally generated tasks, held-out environments, or human-in-the-loop evaluation components.",
+  "related_patterns": ["Code Generation Agents", "Multi-Agent Orchestration", "LLM Evaluation Frameworks"],
+  "vault_source": "",
+  "example_signals": [
+    "AgentBench: Evaluating LLMs as Agents in Diverse Environments",
+    "GAIA: A Benchmark for General AI Assistants",
+    "Benchmark Contamination and Saturation in Large Language Model Evaluations"
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "name": "LLM Evaluation Frameworks",
+  "description": "Methods for measuring LLM and LLM-application output quality: automated evals (ROUGE, BERTScore, task-specific metrics), human evaluation panels, LLM-as-judge (using a strong model to grade outputs), and model-based reference-free evaluation. Evaluation is the bottleneck of the entire LLM development cycle — slow or noisy evals slow down everything downstream.",
+  "keywords": ["LLM evaluation", "LLM-as-judge", "automated evaluation", "RAGAS", "evaluation metrics", "benchmark design"],
+  "maturity": "established",
+  "contrarian_take": "LLM-as-judge has a self-referential bias problem: the grader model favors outputs that sound like its own generation style, which means you can game scores by tuning to the judge rather than to quality. Papers that characterize judge model biases — verbosity preference, position bias, self-preference — and provide calibration methods are more valuable than papers that just report LLM-as-judge scores uncritically.",
+  "related_patterns": ["Agent Evaluation and Benchmarking", "Prompt Engineering and Management", "LLM Observability and Tracing"],
+  "vault_source": "",
+  "example_signals": [
+    "Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena",
+    "RAGAS: Automated Evaluation of Retrieval Augmented Generation",
+    "Large Language Models are not Fair Evaluators"
+  ]
+}

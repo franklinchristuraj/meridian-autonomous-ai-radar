@@ -1,0 +1,14 @@
+{
+  "name": "Multi-Agent Orchestration",
+  "description": "Coordinating multiple specialized LLM agents to collaboratively solve complex tasks that no single agent handles well. Orchestrators delegate subtasks, aggregate results, and resolve conflicts between agent outputs. The appeal is specialization and parallelism — but coordination overhead frequently eliminates the gains.",
+  "keywords": ["multi-agent", "orchestration", "agent coordination", "task decomposition", "LLM agents"],
+  "maturity": "emerging",
+  "contrarian_take": "Most multi-agent papers demonstrate toy scenarios with 2-3 agents that collapse in production. The real signal is papers that show explicit failure modes — coordination deadlock, conflicting outputs, cascading hallucination — and recovery mechanisms. If a paper only shows the happy path, it is not worth tracking.",
+  "related_patterns": ["ReAct and Reasoning-Action Loops", "Human-in-the-Loop Agent Design", "Agent Evaluation and Benchmarking"],
+  "vault_source": "",
+  "example_signals": [
+    "AutoGen: Enabling Next-Gen LLM Applications via Multi-Agent Conversation",
+    "AgentBench: Evaluating LLMs as Agents in Diverse Environments",
+    "Failure Modes in Multi-Agent LLM Systems: A Taxonomy and Recovery Framework"
+  ]
+}

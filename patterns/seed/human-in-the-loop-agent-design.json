@@ -1,0 +1,14 @@
+{
+  "name": "Human-in-the-Loop Agent Design",
+  "description": "Designing agents that know when to pause, request clarification, or escalate to a human rather than proceeding autonomously. The key design problem is calibrating the interruption threshold — too many interruptions kill utility, too few lead to costly unrecoverable errors. Trust calibration, uncertainty quantification, and graceful handoff protocols are the open problems.",
+  "keywords": ["human-in-the-loop", "HITL", "agent interruption", "trust calibration", "uncertainty escalation", "human oversight"],
+  "maturity": "emerging",
+  "contrarian_take": "Most HITL papers optimize for minimizing interruptions as if human attention is the only cost — but the real cost is cognitive context switching. A poorly timed interruption that requires a human to reconstruct context from scratch is more expensive than five well-timed ones. Papers that model interruption quality vs. frequency, rather than just frequency, are doing the right work.",
+  "related_patterns": ["Multi-Agent Orchestration", "Agent Evaluation and Benchmarking", "ReAct and Reasoning-Action Loops"],
+  "vault_source": "",
+  "example_signals": [
+    "When Should Agents Ask for Help? Uncertainty-Driven Human Escalation in LLM Agents",
+    "Trust Calibration in Human-AI Teaming: A Framework for Agentic Systems",
+    "Interrupt or Not? Optimizing Human-Agent Handoff in Long-Horizon Task Completion"
+  ]
+}

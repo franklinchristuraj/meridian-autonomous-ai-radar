@@ -1,0 +1,14 @@
+{
+  "name": "Tool Use and Function Calling",
+  "description": "Enabling LLMs to invoke external tools (APIs, code executors, databases, search) by generating structured function call specifications rather than natural language instructions. This transforms LLMs from text generators into active agents that can read and modify the world. Reliability of tool selection and parameter generation is the core unsolved problem.",
+  "keywords": ["function calling", "tool use", "API integration", "structured output", "tool selection"],
+  "maturity": "established",
+  "contrarian_take": "Function calling benchmarks measure happy-path tool selection, not the failure modes that matter in production: wrong tool chosen confidently, invalid parameter schemas, tool chaining loops, and silent failures where the LLM fabricates a plausible-looking result when the tool returns an error. Papers that instrument real tool call failure rates are far more valuable than capability benchmarks.",
+  "related_patterns": ["ReAct and Reasoning-Action Loops", "Code Generation Agents", "Agentic RAG"],
+  "vault_source": "",
+  "example_signals": [
+    "ToolBench: Facilitating Large Language Models to Master 16000+ Real-world APIs",
+    "AnyTool: Self-Reflective, Hierarchical Agents for Large-Scale API Calls",
+    "Tool Call Reliability in Production LLM Systems: An Empirical Analysis"
+  ]
+}

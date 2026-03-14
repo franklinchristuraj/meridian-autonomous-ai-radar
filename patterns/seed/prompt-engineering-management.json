@@ -1,0 +1,14 @@
+{
+  "name": "Prompt Engineering and Management",
+  "description": "Systematic approaches to designing, versioning, testing, and optimizing prompts for LLM applications. Includes prompt templates, few-shot selection strategies, prompt compression, automatic prompt optimization (DSPy, TextGrad), and prompt regression testing. As systems scale, ad-hoc prompt editing without version control and eval becomes a liability not a workflow.",
+  "keywords": ["prompt engineering", "prompt versioning", "DSPy", "prompt optimization", "few-shot prompting", "prompt testing"],
+  "maturity": "established",
+  "contrarian_take": "Manual prompt engineering is artisanal at scale — the same sensitivity that makes prompts powerful makes them brittle across model versions, temperature changes, and input distributions. Papers on automatic prompt optimization (DSPy, TextGrad) are more strategically important than papers on clever hand-crafted prompts. The craft era of prompting is ending; the systems era is beginning.",
+  "related_patterns": ["LLM Observability and Tracing", "LLM Evaluation Frameworks", "Fine-Tuning vs Prompting Tradeoffs"],
+  "vault_source": "",
+  "example_signals": [
+    "DSPy: Compiling Declarative Language Model Calls into Self-Improving Pipelines",
+    "TextGrad: Automatic Differentiation via Text",
+    "Automatic Prompt Engineer: Large Language Models Are Human-Level Prompt Engineers"
+  ]
+}

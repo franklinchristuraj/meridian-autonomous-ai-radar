@@ -1,0 +1,14 @@
+{
+  "name": "ReAct and Reasoning-Action Loops",
+  "description": "Interleaving reasoning traces (Thought) with grounded actions (Act) and observations (Observe) to enable LLMs to solve multi-step tasks with external grounding. The reasoning trace provides interpretability and error-correction opportunities mid-task. Extensions like Reflexion and Tree-of-Thought build on this foundation to improve long-horizon reliability.",
+  "keywords": ["ReAct", "chain of thought", "reasoning traces", "thought-act-observe", "Reflexion", "Tree of Thought"],
+  "maturity": "established",
+  "contrarian_take": "ReAct-style reasoning traces look interpretable but the trace is frequently post-hoc rationalization rather than actual planning — the model commits to an action before the trace is complete. The real research frontier is work that empirically tests whether reasoning traces causally improve accuracy vs. just correlate with correct outcomes. Most papers do not make this distinction.",
+  "related_patterns": ["Tool Use and Function Calling", "Agent Memory Architectures", "Multi-Agent Orchestration"],
+  "vault_source": "",
+  "example_signals": [
+    "ReAct: Synergizing Reasoning and Acting in Language Models",
+    "Reflexion: Language Agents with Verbal Reinforcement Learning",
+    "Tree of Thoughts: Deliberate Problem Solving with Large Language Models"
+  ]
+}

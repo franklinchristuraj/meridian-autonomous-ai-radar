@@ -1,0 +1,14 @@
+{
+  "name": "LLM Observability and Tracing",
+  "description": "Instrumenting LLM applications to capture prompt-response pairs, token usage, latency, retrieval steps, tool calls, and intermediate reasoning traces for debugging, cost analysis, and quality monitoring. Tools in this space include Phoenix (Arize), LangSmith, LangFuse, Helicone, and Weights & Biases. Observability is the difference between operating LLM systems and guessing at them.",
+  "keywords": ["LLM observability", "tracing", "LangSmith", "Phoenix", "Arize", "LangFuse", "prompt logging", "LLMOps"],
+  "maturity": "established",
+  "contrarian_take": "Most LLM observability tooling is built around logging what happened, not diagnosing why quality degraded. Trace data without anomaly detection, regression alerting, or drift monitoring is just expensive storage. The real gap is papers and tools that translate observability data into actionable interventions — prompt rewrites, retrieval configuration changes, model routing adjustments — automatically.",
+  "related_patterns": ["Prompt Engineering and Management", "LLM Evaluation Frameworks", "LLM Cost Optimization"],
+  "vault_source": "",
+  "example_signals": [
+    "Phoenix: Open-Source LLM Observability and Evaluation Platform",
+    "Towards Production-Ready LLM Observability: Metrics, Alerting, and Drift Detection",
+    "LangSmith: Debugging and Monitoring LLM Chains at Scale"
+  ]
+}

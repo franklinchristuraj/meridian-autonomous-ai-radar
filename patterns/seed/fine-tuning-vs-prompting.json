@@ -1,0 +1,14 @@
+{
+  "name": "Fine-Tuning vs Prompting Tradeoffs",
+  "description": "The decision between adapting model behavior via prompting (few-shot, system prompt) vs. parameter-level adaptation (full fine-tuning, LoRA, QLoRA). Fine-tuning offers better performance on narrow distributions, lower inference latency (no few-shot examples in context), and style internalization. Prompting offers flexibility, no training cost, and easier iteration. RLHF and RLAIF add alignment fine-tuning to the mix.",
+  "keywords": ["fine-tuning", "LoRA", "QLoRA", "PEFT", "RLHF", "instruction tuning", "prompting", "adaptation"],
+  "maturity": "established",
+  "contrarian_take": "Most fine-tuning papers compare against weak few-shot baselines to show their technique wins — but well-engineered prompts with good examples close the gap more often than the papers suggest. The real question is not fine-tuning vs. prompting but whether the performance delta justifies the training pipeline maintenance cost and the brittleness to out-of-distribution inputs. Fine-tuning creates a debt that few teams account for.",
+  "related_patterns": ["Prompt Engineering and Management", "LLM Evaluation Frameworks", "LLM Cost Optimization"],
+  "vault_source": "",
+  "example_signals": [
+    "LoRA: Low-Rank Adaptation of Large Language Models",
+    "The False Promise of Fine-Tuning: When Prompting Matches Adapted Models",
+    "LIMA: Less Is More for Alignment"
+  ]
+}

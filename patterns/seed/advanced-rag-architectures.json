@@ -1,0 +1,14 @@
+{
+  "name": "Advanced RAG Architectures",
+  "description": "Retrieval-Augmented Generation improvements beyond the naive retrieve-then-read pipeline: hybrid search (dense + sparse BM25), re-ranking (cross-encoder models, ColBERT), query expansion and HyDE, multi-vector indexing, and contextual compression. Each component targets a specific failure mode of naive RAG — recall gaps, irrelevant retrieved chunks, semantic mismatch between query and document representation.",
+  "keywords": ["RAG", "hybrid search", "re-ranking", "query expansion", "HyDE", "ColBERT", "BM25", "retrieval augmentation"],
+  "maturity": "established",
+  "contrarian_take": "Advanced RAG papers typically ablate individual components in isolation — hybrid search alone, re-ranking alone — but production systems require combining all of them, and the interactions create unexpected failure modes. Adding re-ranking on top of a poor chunking strategy, for example, cannot compensate for fundamentally misrepresented documents. Papers that evaluate full pipeline compositions rather than isolated components reflect how the technology is actually deployed.",
+  "related_patterns": ["Agentic RAG", "Embedding Model Selection", "Knowledge Graph and LLM Integration"],
+  "vault_source": "",
+  "example_signals": [
+    "Precise Zero-Shot Dense Retrieval without Relevance Labels (HyDE)",
+    "RAPTOR: Recursive Abstractive Processing for Tree-Organized Retrieval",
+    "Lost in the Middle: How Language Models Use Long Contexts"
+  ]
+}

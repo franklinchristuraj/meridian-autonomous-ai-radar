@@ -1,0 +1,14 @@
+{
+  "name": "LLM Cost Optimization",
+  "description": "Techniques to reduce inference cost while preserving output quality: semantic caching (reusing responses for similar queries), model routing (directing queries to the cheapest model that can handle them), speculative decoding, prompt compression, and quantization. At scale, inference costs dominate — a 10x cost reduction can change the economics of a product entirely.",
+  "keywords": ["LLM cost", "model routing", "semantic caching", "prompt compression", "speculative decoding", "inference optimization"],
+  "maturity": "emerging",
+  "contrarian_take": "Semantic caching papers report hit rates on benchmark datasets where query distributions are stationary — not the adversarial, long-tail query distributions of real products. Model routing papers benchmark routing accuracy but rarely report total system cost including the router's own inference cost. Papers that report end-to-end cost under realistic production query distributions, not benchmark hit rates, are telling the truth.",
+  "related_patterns": ["LLM Observability and Tracing", "Fine-Tuning vs Prompting Tradeoffs", "Prompt Engineering and Management"],
+  "vault_source": "",
+  "example_signals": [
+    "FrugalGPT: How to Use Large Language Models While Reducing Cost and Improving Performance",
+    "RouteLLM: Learning to Route LLMs with Preference Data",
+    "GPTCache: A Data or Prompt Caching System for LLM-Based Applications"
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "name": "Agent Memory Architectures",
+  "description": "Structuring how agents store and retrieve information across time: working memory (in-context), episodic memory (past interaction summaries), semantic memory (persistent knowledge bases), and procedural memory (learned action sequences). The architecture determines what an agent can learn from experience vs. what it forgets. Most production agent systems treat memory as an afterthought.",
+  "keywords": ["agent memory", "episodic memory", "working memory", "memory retrieval", "long-term memory", "context management"],
+  "maturity": "emerging",
+  "contrarian_take": "The memory taxonomy papers (working/episodic/semantic/procedural) are intellectually tidy but practically useless — they describe the categories without addressing the hard problem of when to write vs. overwrite vs. forget. Papers worth tracking are those that tackle memory staleness, contradiction resolution, and the cost of retrieval at scale, not frameworks that just name the buckets.",
+  "related_patterns": ["ReAct and Reasoning-Action Loops", "Agentic RAG", "Multi-Agent Orchestration"],
+  "vault_source": "",
+  "example_signals": [
+    "MemGPT: Towards LLMs as Operating Systems",
+    "Cognitive Architectures for Language Agents: A Survey",
+    "Memory Management in Long-Horizon Autonomous Agents: Staleness, Contradiction, and Forgetting"
+  ]
+}
