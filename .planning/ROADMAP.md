@@ -57,7 +57,11 @@ Plans:
   1. The Analyst agent clusters BRIEF and VAULT signals by topic and writes cluster IDs and matched pattern references back to Signal objects in Weaviate
   2. The Briefing agent generates a structured narrative brief (what's happening → time horizon → recommended action) and writes it to the Briefings collection in Weaviate
   3. Franklin can open the PWA and see today's briefing at `/briefing/today`, with BRIEF items visually prominent and a staleness warning if the pipeline has not run in over 25 hours
-**Plans**: TBD
+**Plans**: 2 plans
+Plans:
+- [ ] 03-01-PLAN.md — Analyst agent: schema migration, signal clustering, trend annotations, cluster_id write-back (INTEL-02)
+- [ ] 03-02-PLAN.md — Briefing agent: narrative generation, pipeline orchestration, Scout wiring, API endpoints with staleness (DELIV-01)
+
 ### Phase 4: Vault Integration
 **Goal**: High-confidence VAULT-tier signals are automatically deposited as seeds in Franklin's Obsidian vault without any manual action required
 **Depends on**: Phase 3
@@ -76,5 +80,5 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 |-------|----------------|--------|-----------|
 | 1. Foundation | 3/3 | Complete   | 2026-03-14 |
 | 2. Scout Pipeline | 3/3 | Complete   | 2026-03-15 |
-| 3. Intelligence + Briefing | 0/TBD | Not started | - |
+| 3. Intelligence + Briefing | 0/2 | Not started | - |
 | 4. Vault Integration | 0/TBD | Not started | - |
