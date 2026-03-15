@@ -3,9 +3,9 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: completed
-stopped_at: Completed 02-02-PLAN.md
-last_updated: "2026-03-15T15:45:13.159Z"
-last_activity: 2026-03-14 — Completed plan 01-03 (seed pattern library, 16 patterns loaded into Weaviate)
+stopped_at: Completed 02-03-PLAN.md
+last_updated: "2026-03-15T17:10:00.000Z"
+last_activity: 2026-03-15 — Completed plan 02-03 (trigger/scheduler separation, 50 tests passing)
 progress:
   total_phases: 4
   completed_phases: 2
@@ -26,9 +26,9 @@ See: .planning/PROJECT.md (updated 2026-03-13)
 ## Current Position
 
 Phase: 2 of 4 (Scout Pipeline) — COMPLETE
-Plan: 2 of 2 in current phase (all plans done)
+Plan: 3 of 3 in current phase (all plans done)
 Status: Phase 2 complete, ready for Phase 3 (after validation gate)
-Last activity: 2026-03-15 — Completed plan 02-02 (Scout pipeline orchestrator + trigger wiring, 42 tests passing)
+Last activity: 2026-03-15 — Completed plan 02-03 (trigger/scheduler separation: manual seed ingest + APScheduler cron, 50 tests passing)
 
 Progress: [██████████] 100% (Phase 2)
 
@@ -52,6 +52,7 @@ Progress: [██████████] 100% (Phase 2)
 *Updated after each plan completion*
 | Phase 02-scout-pipeline P01 | 20 | 1 tasks | 5 files |
 | Phase 02-scout-pipeline P02 | 8 | 2 tasks | 4 files |
+| Phase 02-scout-pipeline P03 | 20 | 2 tasks | 6 files |
 
 ## Accumulated Context
 
@@ -70,6 +71,9 @@ Recent decisions affecting current work:
 - [Phase 02-scout-pipeline]: score_paper uses regex fallback before raising ValueError for unparseable Haiku responses
 - [Phase 02-scout-pipeline]: reasoning stored as dedicated TEXT property in Signals via idempotent schema migration
 - [Phase 02-scout-pipeline]: run_scout_pipeline and write_heartbeat were already present from Plan 01; Plan 02 added orchestration tests and wired trigger.py to the real import
+- [02-03]: APScheduler 3.x (AsyncIOScheduler) used for daily Scout cron — no broker needed, asyncio-native, configurable via SCOUT_CRON_HOUR/SCOUT_CRON_MINUTE
+- [02-03]: Manual seeds default to tier=BRIEF, score=0.0 — user intent is attention, not scoring
+- [02-03]: Manual seed deduplication uses source_url (not arxiv_id) since manual seeds may not have arxiv IDs
 
 ### Pending Todos
 
@@ -83,6 +87,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-15T15:45:13.157Z
-Stopped at: Completed 02-02-PLAN.md
+Last session: 2026-03-15T17:10:00.000Z
+Stopped at: Completed 02-03-PLAN.md
 Resume file: None
