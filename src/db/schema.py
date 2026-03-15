@@ -9,6 +9,7 @@ def init_schema(client: weaviate.WeaviateClient) -> None:
     _create_hypotheses(client)
     _create_feedback(client)
     _create_briefings(client)
+    _migrate_signals_reasoning(client)
 
 
 
@@ -31,6 +32,18 @@ def _create_signals(client: weaviate.WeaviateClient) -> None:
             Property(name="matched_pattern_ids", data_type=DataType.TEXT_ARRAY),
         ],
     )
+
+
+def _migrate_signals_reasoning(client: weaviate.WeaviateClient) -> None:
+    """Idempotent migration: add reasoning TEXT property to Signals if missing."""
+    if not client.collections.exists("Signals"):
+        return
+    signals = client.collections.get("Signals")
+    try:
+        signals.config.add_property(Property(name="reasoning", data_type=DataType.TEXT))
+    except Exception:
+        # Property already exists — safe to ignore
+        pass
 
 
 def _create_patterns(client: weaviate.WeaviateClient) -> None:
