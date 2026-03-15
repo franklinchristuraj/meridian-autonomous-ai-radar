@@ -5,15 +5,11 @@ import logging
 from fastapi import APIRouter, BackgroundTasks, Security
 
 from src.api.auth import verify_api_key
+from src.pipeline.scout import run_scout_pipeline
 
 logger = logging.getLogger(__name__)
 
 router = APIRouter(prefix="/pipeline", tags=["pipeline"])
-
-
-def run_scout_pipeline() -> None:
-    """Stub: Phase 1 placeholder — full Scout logic lands in Phase 2."""
-    logger.info("Pipeline triggered — stub for Phase 1")
 
 
 @router.post("/trigger", status_code=202)

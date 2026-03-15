@@ -2,6 +2,7 @@
 
 import os
 import pytest
+from unittest.mock import patch
 from starlette.testclient import TestClient
 
 
@@ -18,10 +19,11 @@ def client():
 
 def test_trigger_returns_202(client):
     """POST /pipeline/trigger with valid X-API-Key returns 202 and accepted body."""
-    response = client.post(
-        "/pipeline/trigger",
-        headers={"X-API-Key": "test-secret"},
-    )
+    with patch("src.api.routes.trigger.run_scout_pipeline"):
+        response = client.post(
+            "/pipeline/trigger",
+            headers={"X-API-Key": "test-secret"},
+        )
     assert response.status_code == 202
     assert response.json() == {"status": "accepted"}
 
