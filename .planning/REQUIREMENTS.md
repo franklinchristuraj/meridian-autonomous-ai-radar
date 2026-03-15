@@ -26,7 +26,7 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Delivery
 
-- [ ] **DELIV-01**: Morning briefing generated with top items, structured as: what's happening → time horizon → recommended action
+- [x] **DELIV-01**: Morning briefing generated with top items, structured as: what's happening → time horizon → recommended action
 - [ ] **DELIV-02**: Auto-deposit VAULT-tier signals as seeds to Obsidian vault via MCP
 
 ## v2 Requirements
@@ -92,7 +92,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | INGEST-02 | Phase 2 | Complete |
 | INTEL-01 | Phase 2 | Complete |
 | INTEL-02 | Phase 3 | Complete |
-| DELIV-01 | Phase 3 | Pending |
+| DELIV-01 | Phase 3 | Complete |
 | DELIV-02 | Phase 4 | Pending |
 
 **Coverage:**

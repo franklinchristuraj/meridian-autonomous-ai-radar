@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: in_progress
-stopped_at: Completed 03-01 (Analyst agent)
-last_updated: "2026-03-15T18:55:00.000Z"
-last_activity: "2026-03-15 — Completed plan 03-01 (Analyst agent: clustering, trend annotations, cluster_id write-back, 67 tests passing)"
+stopped_at: Completed 03-02 (Briefing agent + API routes)
+last_updated: "2026-03-15T19:32:00.000Z"
+last_activity: "2026-03-15 — Completed plan 03-02 (Briefing agent: Sonnet narrative generation, 5 API endpoints, Scout wiring, 86 tests passing)"
 progress:
   total_phases: 4
   completed_phases: 2
   total_plans: 9
-  completed_plans: 7
-  percent: 78
+  completed_plans: 8
+  percent: 89
 ---
 
 # Project State
@@ -26,11 +26,11 @@ See: .planning/PROJECT.md (updated 2026-03-13)
 ## Current Position
 
 Phase: 3 of 4 (Intelligence + Briefing) — IN PROGRESS
-Plan: 1 of 3 in current phase (03-01 done)
-Status: Plan 03-01 complete — Analyst agent built and tested
-Last activity: 2026-03-15 — Completed plan 03-01 (Analyst agent: clustering, trend annotations, cluster_id write-back, 67 tests passing)
+Plan: 2 of 3 in current phase (03-01 and 03-02 done)
+Status: Plan 03-02 complete — Briefing agent with narrative generation and API routes
+Last activity: 2026-03-15 — Completed plan 03-02 (Briefing agent: Sonnet narrative generation, 5 API endpoints, Scout wiring, 86 tests passing)
 
-Progress: [███████░░░] 78% (7/9 plans complete)
+Progress: [████████░░] 89% (8/9 plans complete)
 
 ## Performance Metrics
 
@@ -54,6 +54,7 @@ Progress: [███████░░░] 78% (7/9 plans complete)
 | Phase 02-scout-pipeline P02 | 8 | 2 tasks | 4 files |
 | Phase 02-scout-pipeline P03 | 20 | 2 tasks | 6 files |
 | Phase 03-intelligence-briefing P01 | 25 | 1 tasks (TDD) | 3 files |
+| Phase 03-intelligence-briefing P02 | 35 | 2 tasks (TDD) | 7 files |
 
 ## Accumulated Context
 
@@ -78,6 +79,10 @@ Recent decisions affecting current work:
 - [03-01]: cluster_signals calls invoke_claude with model=claude-sonnet-4-5 and timeout=300 (heavier reasoning than Haiku scoring)
 - [03-01]: Singletons receive cluster_id="singleton" (not null) for consistent Weaviate property semantics
 - [03-01]: fetch_recent_signals returns lighter payload (title + matched_pattern_ids only) to bound trend context prompt size
+- [03-02]: Briefing pipeline call in scout.py wrapped in _run_briefing_pipeline() for clean @patch isolation in existing scout tests without circular import at module level
+- [03-02]: generate_briefing_narrative enforces BRIEF-first ordering and 10-item cap client-side (not relying on Sonnet output ordering)
+- [03-02]: write_briefing uses delete+reinsert for date deduplication, consistent with existing idempotency patterns
+- [03-02]: Staleness threshold is 25 hours (not 24) to allow for slight scheduling drift without false stale flags
 
 ### Pending Todos
 
@@ -91,6 +96,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-15T18:55:00.000Z
-Stopped at: Completed 03-01-PLAN.md (Analyst agent)
-Resume file: .planning/phases/03-intelligence-briefing/03-02-PLAN.md
+Last session: 2026-03-15T19:32:00.000Z
+Stopped at: Completed 03-02-PLAN.md (Briefing agent + API routes)
+Resume file: .planning/phases/03-intelligence-briefing/03-03-PLAN.md

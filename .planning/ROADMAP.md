@@ -14,7 +14,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Foundation** - Weaviate schema, FastAPI trigger wiring, VPS agent runtime, and pattern library bootstrapped in parallel (completed 2026-03-14)
 - [x] **Phase 2: Scout Pipeline** - Daily ArXiv ingestion, Haiku scoring against patterns, signals written to Weaviate with three-tier routing (completed 2026-03-15)
-- [ ] **Phase 3: Intelligence + Briefing** - Analyst agent clusters signals, Briefing agent generates the morning brief
+- [x] **Phase 3: Intelligence + Briefing** - Analyst agent clusters signals, Briefing agent generates the morning brief (completed 2026-03-15)
 - [ ] **Phase 4: Vault Integration** - Translator agent auto-deposits VAULT-tier seeds to Obsidian via MCP
 
 ## Phase Details
@@ -80,5 +80,5 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 |-------|----------------|--------|-----------|
 | 1. Foundation | 3/3 | Complete   | 2026-03-14 |
 | 2. Scout Pipeline | 3/3 | Complete   | 2026-03-15 |
-| 3. Intelligence + Briefing | 1/2 | In Progress|  |
+| 3. Intelligence + Briefing | 2/2 | Complete   | 2026-03-15 |
 | 4. Vault Integration | 0/TBD | Not started | - |
