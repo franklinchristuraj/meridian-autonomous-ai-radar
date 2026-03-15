@@ -22,7 +22,7 @@ Requirements for initial release. Each maps to roadmap phases.
 ### Intelligence
 
 - [x] **INTEL-01**: Semantic source-to-pattern matching via Weaviate nearVector search
-- [ ] **INTEL-02**: Signal clustering and trend detection across accumulated signals (Analyst agent, Claude Sonnet)
+- [x] **INTEL-02**: Signal clustering and trend detection across accumulated signals (Analyst agent, Claude Sonnet)
 
 ### Delivery
 
@@ -91,7 +91,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | INGEST-01 | Phase 2 | Complete |
 | INGEST-02 | Phase 2 | Complete |
 | INTEL-01 | Phase 2 | Complete |
-| INTEL-02 | Phase 3 | Pending |
+| INTEL-02 | Phase 3 | Complete |
 | DELIV-01 | Phase 3 | Pending |
 | DELIV-02 | Phase 4 | Pending |
 
