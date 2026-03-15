@@ -70,7 +70,11 @@ Plans:
   1. The Translator agent deposits VAULT-tier signals with confidence >= 0.8 as seeds in Obsidian `01_seeds/` with the `#auto-deposit` tag and full provenance in frontmatter — without modifying any existing notes
   2. No more than 3 seeds are deposited per day regardless of how many signals qualify
   3. Seeds created by Translator are queryable in the vault and link back to the originating Signal in Weaviate via a source reference in their frontmatter
-**Plans**: TBD
+**Plans**: 2 plans
+Plans:
+- [ ] 04-01-PLAN.md — Translator pipeline module (TDD): schema migration, fetch/filter/rank VAULT signals, render seed notes, filesystem write with duplicate detection and daily cap (DELIV-02)
+- [ ] 04-02-PLAN.md — Vault API routes, router registration, briefing-to-translator chain wiring (DELIV-02)
+
 ## Progress
 
 **Execution Order:**
@@ -81,4 +85,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 | 1. Foundation | 3/3 | Complete   | 2026-03-14 |
 | 2. Scout Pipeline | 3/3 | Complete   | 2026-03-15 |
 | 3. Intelligence + Briefing | 2/2 | Complete   | 2026-03-15 |
-| 4. Vault Integration | 0/TBD | Not started | - |
+| 4. Vault Integration | 0/2 | Not started | - |
