@@ -1,8 +1,10 @@
 """Unit tests for Scout pipeline helper functions."""
 
 import json
+import os
 from datetime import date
-from unittest.mock import MagicMock, patch
+from pathlib import Path
+from unittest.mock import MagicMock, call, patch
 
 import pytest
 
@@ -16,7 +18,9 @@ from src.pipeline.scout import (
     keyword_density,
     keyword_filter,
     normalize_arxiv_id,
+    run_scout_pipeline,
     score_paper,
+    write_heartbeat,
     write_signal,
 )
 
@@ -355,3 +359,183 @@ def test_write_signal_duplicate():
     write_signal(mock_client, data)
 
     mock_collection.data.insert.assert_not_called()
+
+
+# ---------------------------------------------------------------------------
+# write_heartbeat
+# ---------------------------------------------------------------------------
+
+def test_write_heartbeat(tmp_path, monkeypatch):
+    """Writes valid JSON with expected keys to heartbeat/scout.json."""
+    import src.pipeline.scout as scout_module
+    monkeypatch.setattr(scout_module, "HEARTBEAT_PATH", tmp_path / "scout.json")
+
+    write_heartbeat(42, 10)
+
+    assert (tmp_path / "scout.json").exists()
+    data = json.loads((tmp_path / "scout.json").read_text())
+    assert data["papers_fetched"] == 42
+    assert data["papers_scored"] == 10
+    assert data["status"] == "ok"
+    assert "last_run" in data
+
+
+def test_heartbeat_creates_directory(tmp_path, monkeypatch):
+    """heartbeat/ dir is created if it does not exist."""
+    import src.pipeline.scout as scout_module
+    nested = tmp_path / "nested" / "heartbeat" / "scout.json"
+    monkeypatch.setattr(scout_module, "HEARTBEAT_PATH", nested)
+
+    write_heartbeat(5, 3)
+
+    assert nested.exists()
+
+
+# ---------------------------------------------------------------------------
+# run_scout_pipeline
+# ---------------------------------------------------------------------------
+
+def _make_paper(entry_id, title="Title", summary="Abstract"):
+    p = MagicMock()
+    p.entry_id = entry_id
+    p.title = title
+    p.summary = summary
+    p.published = MagicMock()
+    p.published.isoformat.return_value = "2024-01-15T00:00:00"
+    return p
+
+
+MOCK_PATTERNS = [
+    {"name": "P1", "description": "desc1", "contrarian_take": "ct1",
+     "keywords": ["kw"], "uuid": "uuid-1", "distance": 0.1}
+]
+
+MOCK_SCORE_RESULT = {
+    "score": 8.0,
+    "matched_pattern_names": ["P1"],
+    "reasoning": "Novel contribution.",
+}
+
+
+@patch("src.pipeline.scout.write_heartbeat")
+@patch("src.pipeline.scout.write_signal")
+@patch("src.pipeline.scout.assign_tier", return_value="BRIEF")
+@patch("src.pipeline.scout.score_paper", return_value=MOCK_SCORE_RESULT)
+@patch("src.pipeline.scout.get_top_patterns", return_value=MOCK_PATTERNS)
+@patch("src.pipeline.scout.arxiv_id_exists", return_value=False)
+@patch("src.pipeline.scout.keyword_filter")
+@patch("src.pipeline.scout.fetch_pattern_keywords", return_value=["agent"])
+@patch("src.pipeline.scout.fetch_arxiv_papers")
+@patch("src.pipeline.scout.get_client")
+def test_run_scout_pipeline_happy_path(
+    mock_get_client, mock_fetch, mock_keywords, mock_filter,
+    mock_exists, mock_top, mock_score, mock_tier, mock_write, mock_heartbeat
+):
+    """Happy path: fetch -> keywords -> filter -> score loop -> write -> heartbeat. Client closed."""
+    papers = [
+        _make_paper("http://arxiv.org/abs/2401.00001v1", "Paper 1"),
+        _make_paper("http://arxiv.org/abs/2401.00002v1", "Paper 2"),
+        _make_paper("http://arxiv.org/abs/2401.00003v1", "Paper 3"),
+    ]
+    mock_fetch.return_value = papers
+    mock_filter.return_value = papers
+
+    mock_client = MagicMock()
+    mock_get_client.return_value = mock_client
+
+    run_scout_pipeline()
+
+    assert mock_write.call_count == 3
+    mock_heartbeat.assert_called_once_with(3, 3)
+    mock_client.close.assert_called_once()
+
+
+@patch("src.pipeline.scout.write_heartbeat")
+@patch("src.pipeline.scout.write_signal")
+@patch("src.pipeline.scout.assign_tier", return_value="VAULT")
+@patch("src.pipeline.scout.score_paper", return_value=MOCK_SCORE_RESULT)
+@patch("src.pipeline.scout.get_top_patterns", return_value=MOCK_PATTERNS)
+@patch("src.pipeline.scout.arxiv_id_exists")
+@patch("src.pipeline.scout.keyword_filter")
+@patch("src.pipeline.scout.fetch_pattern_keywords", return_value=["agent"])
+@patch("src.pipeline.scout.fetch_arxiv_papers")
+@patch("src.pipeline.scout.get_client")
+def test_run_scout_pipeline_skips_duplicates(
+    mock_get_client, mock_fetch, mock_keywords, mock_filter,
+    mock_exists, mock_top, mock_score, mock_tier, mock_write, mock_heartbeat
+):
+    """Paper 2 is a duplicate — score_paper not called for it."""
+    papers = [
+        _make_paper("http://arxiv.org/abs/2401.00001v1", "Paper 1"),
+        _make_paper("http://arxiv.org/abs/2401.00002v1", "Paper 2"),
+        _make_paper("http://arxiv.org/abs/2401.00003v1", "Paper 3"),
+    ]
+    mock_fetch.return_value = papers
+    mock_filter.return_value = papers
+    # Paper 2 (index 1) is a duplicate
+    mock_exists.side_effect = [False, True, False]
+
+    mock_get_client.return_value = MagicMock()
+
+    run_scout_pipeline()
+
+    assert mock_score.call_count == 2
+    mock_heartbeat.assert_called_once_with(3, 2)
+
+
+@patch("src.pipeline.scout.write_heartbeat")
+@patch("src.pipeline.scout.write_signal")
+@patch("src.pipeline.scout.assign_tier", return_value="VAULT")
+@patch("src.pipeline.scout.score_paper")
+@patch("src.pipeline.scout.get_top_patterns", return_value=MOCK_PATTERNS)
+@patch("src.pipeline.scout.arxiv_id_exists", return_value=False)
+@patch("src.pipeline.scout.keyword_filter")
+@patch("src.pipeline.scout.fetch_pattern_keywords", return_value=["agent"])
+@patch("src.pipeline.scout.fetch_arxiv_papers")
+@patch("src.pipeline.scout.get_client")
+def test_run_scout_pipeline_score_failure_continues(
+    mock_get_client, mock_fetch, mock_keywords, mock_filter,
+    mock_exists, mock_top, mock_score, mock_tier, mock_write, mock_heartbeat
+):
+    """Score failure for paper 2 is logged and skipped; pipeline continues; heartbeat written."""
+    papers = [
+        _make_paper("http://arxiv.org/abs/2401.00001v1", "Paper 1"),
+        _make_paper("http://arxiv.org/abs/2401.00002v1", "Paper 2"),
+        _make_paper("http://arxiv.org/abs/2401.00003v1", "Paper 3"),
+    ]
+    mock_fetch.return_value = papers
+    mock_filter.return_value = papers
+    mock_score.side_effect = [MOCK_SCORE_RESULT, Exception("Haiku failed"), MOCK_SCORE_RESULT]
+
+    mock_get_client.return_value = MagicMock()
+
+    run_scout_pipeline()
+
+    assert mock_write.call_count == 2
+    mock_heartbeat.assert_called_once_with(3, 2)
+
+
+@patch("src.pipeline.scout.fetch_arxiv_papers", side_effect=RuntimeError("network error"))
+@patch("src.pipeline.scout.get_client")
+def test_run_scout_pipeline_client_closed_on_error(mock_get_client, mock_fetch):
+    """Client is closed in finally block even when fetch raises."""
+    mock_client = MagicMock()
+    mock_get_client.return_value = mock_client
+
+    with pytest.raises(RuntimeError):
+        run_scout_pipeline()
+
+    mock_client.close.assert_called_once()
+
+
+@patch("src.pipeline.scout.write_heartbeat")
+@patch("src.pipeline.scout.fetch_arxiv_papers", side_effect=RuntimeError("network error"))
+@patch("src.pipeline.scout.get_client")
+def test_run_scout_pipeline_no_heartbeat_on_crash(mock_get_client, mock_fetch, mock_heartbeat):
+    """Heartbeat is NOT written when pipeline crashes before completion."""
+    mock_get_client.return_value = MagicMock()
+
+    with pytest.raises(RuntimeError):
+        run_scout_pipeline()
+
+    mock_heartbeat.assert_not_called()
