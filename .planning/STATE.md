@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: completed
-stopped_at: Phase 2 context gathered
-last_updated: "2026-03-15T15:22:29.649Z"
+stopped_at: Completed 02-01-PLAN.md
+last_updated: "2026-03-15T15:41:24.072Z"
 last_activity: 2026-03-14 — Completed plan 01-03 (seed pattern library, 16 patterns loaded into Weaviate)
 progress:
   total_phases: 4
   completed_phases: 1
-  total_plans: 3
-  completed_plans: 3
+  total_plans: 5
+  completed_plans: 4
   percent: 100
 ---
 
@@ -50,6 +50,7 @@ Progress: [██████████] 100% (Phase 1)
 - Trend: Steady
 
 *Updated after each plan completion*
+| Phase 02-scout-pipeline P01 | 20 | 1 tasks | 5 files |
 
 ## Accumulated Context
 
@@ -65,6 +66,8 @@ Recent decisions affecting current work:
 - [01-02]: invoke_claude uses subprocess.run with capture_output for clean mocking in unit tests (no local Claude CLI required).
 - [Phase 01-foundation]: Pattern coverage split: 8 Agentic Systems + 5 LLMOps + 3 RAG — front-loaded on Scout scoring domains
 - [Phase 01-foundation]: Idempotency via name-match lookup before insert (not upsert) — simpler and avoids Weaviate ID management
+- [Phase 02-scout-pipeline]: score_paper uses regex fallback before raising ValueError for unparseable Haiku responses
+- [Phase 02-scout-pipeline]: reasoning stored as dedicated TEXT property in Signals via idempotent schema migration
 
 ### Pending Todos
 
@@ -78,6 +81,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-15T15:22:29.646Z
-Stopped at: Phase 2 context gathered
-Resume file: .planning/phases/02-scout-pipeline/02-CONTEXT.md
+Last session: 2026-03-15T15:41:24.070Z
+Stopped at: Completed 02-01-PLAN.md
+Resume file: None
