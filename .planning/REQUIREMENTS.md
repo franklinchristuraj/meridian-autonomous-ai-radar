@@ -16,12 +16,12 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Ingestion
 
-- [ ] **INGEST-01**: Daily ArXiv fetch from cs.AI, cs.CL, cs.CV, cs.LG, cs.MA, cs.SD categories via arxiv 2.4.1
-- [ ] **INGEST-02**: LLM relevance scoring (Claude Haiku) of each signal against pattern library (1-10 scale)
+- [x] **INGEST-01**: Daily ArXiv fetch from cs.AI, cs.CL, cs.CV, cs.LG, cs.MA, cs.SD categories via arxiv 2.4.1
+- [x] **INGEST-02**: LLM relevance scoring (Claude Haiku) of each signal against pattern library (1-10 scale)
 
 ### Intelligence
 
-- [ ] **INTEL-01**: Semantic source-to-pattern matching via Weaviate nearVector search
+- [x] **INTEL-01**: Semantic source-to-pattern matching via Weaviate nearVector search
 - [ ] **INTEL-02**: Signal clustering and trend detection across accumulated signals (Analyst agent, Claude Sonnet)
 
 ### Delivery
@@ -88,9 +88,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | INFRA-02 | Phase 1 | Complete |
 | INFRA-03 | Phase 1 | Complete |
 | INFRA-04 | Phase 1 | Complete |
-| INGEST-01 | Phase 2 | Pending |
-| INGEST-02 | Phase 2 | Pending |
-| INTEL-01 | Phase 2 | Pending |
+| INGEST-01 | Phase 2 | Complete |
+| INGEST-02 | Phase 2 | Complete |
+| INTEL-01 | Phase 2 | Complete |
 | INTEL-02 | Phase 3 | Pending |
 | DELIV-01 | Phase 3 | Pending |
 | DELIV-02 | Phase 4 | Pending |

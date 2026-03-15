@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: completed
-stopped_at: Completed 02-01-PLAN.md
-last_updated: "2026-03-15T15:41:24.072Z"
+stopped_at: Completed 02-02-PLAN.md
+last_updated: "2026-03-15T15:45:13.159Z"
 last_activity: 2026-03-14 — Completed plan 01-03 (seed pattern library, 16 patterns loaded into Weaviate)
 progress:
   total_phases: 4
-  completed_phases: 1
+  completed_phases: 2
   total_plans: 5
-  completed_plans: 4
+  completed_plans: 5
   percent: 100
 ---
 
@@ -21,16 +21,16 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-13)
 
 **Core value:** Every morning, a useful briefing surfaces AI signals worth my attention — without me scanning anything manually.
-**Current focus:** Phase 1 — Foundation
+**Current focus:** Phase 2 — Scout Pipeline
 
 ## Current Position
 
-Phase: 1 of 4 (Foundation) — COMPLETE
-Plan: 3 of 3 in current phase (all plans done)
-Status: Phase 1 complete, ready for Phase 2
-Last activity: 2026-03-14 — Completed plan 01-03 (seed pattern library, 16 patterns loaded into Weaviate)
+Phase: 2 of 4 (Scout Pipeline) — COMPLETE
+Plan: 2 of 2 in current phase (all plans done)
+Status: Phase 2 complete, ready for Phase 3 (after validation gate)
+Last activity: 2026-03-15 — Completed plan 02-02 (Scout pipeline orchestrator + trigger wiring, 42 tests passing)
 
-Progress: [██████████] 100% (Phase 1)
+Progress: [██████████] 100% (Phase 2)
 
 ## Performance Metrics
 
@@ -51,6 +51,7 @@ Progress: [██████████] 100% (Phase 1)
 
 *Updated after each plan completion*
 | Phase 02-scout-pipeline P01 | 20 | 1 tasks | 5 files |
+| Phase 02-scout-pipeline P02 | 8 | 2 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -68,6 +69,7 @@ Recent decisions affecting current work:
 - [Phase 01-foundation]: Idempotency via name-match lookup before insert (not upsert) — simpler and avoids Weaviate ID management
 - [Phase 02-scout-pipeline]: score_paper uses regex fallback before raising ValueError for unparseable Haiku responses
 - [Phase 02-scout-pipeline]: reasoning stored as dedicated TEXT property in Signals via idempotent schema migration
+- [Phase 02-scout-pipeline]: run_scout_pipeline and write_heartbeat were already present from Plan 01; Plan 02 added orchestration tests and wired trigger.py to the real import
 
 ### Pending Todos
 
@@ -81,6 +83,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-15T15:41:24.070Z
-Stopped at: Completed 02-01-PLAN.md
+Last session: 2026-03-15T15:45:13.157Z
+Stopped at: Completed 02-02-PLAN.md
 Resume file: None
