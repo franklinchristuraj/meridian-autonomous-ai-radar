@@ -297,5 +297,8 @@ def run_scout_pipeline() -> None:
 
         write_heartbeat(len(papers), scored)
         logger.info(f"Scout complete: {scored} signals written")
+
+        from src.pipeline.briefing import run_analyst_briefing_pipeline
+        run_analyst_briefing_pipeline()
     finally:
         client.close()
