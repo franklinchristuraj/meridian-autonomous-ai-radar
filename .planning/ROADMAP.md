@@ -43,7 +43,10 @@ Plans:
   2. ArXiv papers from cs.AI, cs.CL, cs.CV, cs.LG, cs.MA, cs.SD are fetched, keyword-filtered, and stored as Signal objects in Weaviate with deduplication by ArXiv ID
   3. Each signal has a Haiku-generated relevance score (1-10) and a tier assignment (BRIEF / VAULT / ARCHIVE) based on semantic nearVector matching against the pattern library
   4. Franklin reads five consecutive morning briefings from the Scout-only output and confirms the signal distribution feels directionally correct before Phase 3 begins
-**Plans**: TBD
+**Plans**: 2 plans
+Plans:
+- [ ] 02-01-PLAN.md — Scout helper functions, tests, schema migration, arxiv dependency (INGEST-01, INGEST-02, INTEL-01)
+- [ ] 02-02-PLAN.md — Pipeline orchestrator, trigger wiring, heartbeat (INGEST-01, INGEST-02, INTEL-01)
 
 ### Phase 3: Intelligence + Briefing
 **Goal**: Scored signals are clustered into trends, mapped to patterns, and assembled into a structured morning briefing that Franklin can read
@@ -71,6 +74,6 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Foundation | 3/3 | Complete   | 2026-03-14 |
-| 2. Scout Pipeline | 0/TBD | Not started | - |
+| 2. Scout Pipeline | 0/2 | Not started | - |
 | 3. Intelligence + Briefing | 0/TBD | Not started | - |
 | 4. Vault Integration | 0/TBD | Not started | - |
