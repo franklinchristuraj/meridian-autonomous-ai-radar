@@ -1,20 +1,37 @@
 """FastAPI application entry point for the Meridian pipeline orchestrator."""
 
+import os
 from contextlib import asynccontextmanager
 
+from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from dotenv import load_dotenv
 from fastapi import FastAPI
 
 from src.api.routes.trigger import router as trigger_router
+from src.pipeline.scout import run_scout_pipeline
 
 load_dotenv()
+
+scheduler = AsyncIOScheduler()
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):  # type: ignore[type-arg]
-    # Startup
+    # Startup: schedule Scout daily cron
+    cron_hour = int(os.getenv("SCOUT_CRON_HOUR", "6"))
+    cron_minute = int(os.getenv("SCOUT_CRON_MINUTE", "0"))
+    scheduler.add_job(
+        run_scout_pipeline,
+        "cron",
+        hour=cron_hour,
+        minute=cron_minute,
+        id="scout_daily",
+        replace_existing=True,
+    )
+    scheduler.start()
     yield
     # Shutdown
+    scheduler.shutdown(wait=False)
 
 
 app = FastAPI(
