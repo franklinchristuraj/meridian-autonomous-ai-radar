@@ -19,6 +19,12 @@ from src.runtime.claude_runner import invoke_claude
 
 logger = logging.getLogger(__name__)
 
+
+def _run_briefing_pipeline() -> None:
+    """Delegate to run_analyst_briefing_pipeline (lazy import avoids circular deps at module level)."""
+    from src.pipeline.briefing import run_analyst_briefing_pipeline
+    run_analyst_briefing_pipeline()
+
 # ---------------------------------------------------------------------------
 # Constants
 # ---------------------------------------------------------------------------
@@ -297,8 +303,6 @@ def run_scout_pipeline() -> None:
 
         write_heartbeat(len(papers), scored)
         logger.info(f"Scout complete: {scored} signals written")
-
-        from src.pipeline.briefing import run_analyst_briefing_pipeline
-        run_analyst_briefing_pipeline()
+        _run_briefing_pipeline()
     finally:
         client.close()

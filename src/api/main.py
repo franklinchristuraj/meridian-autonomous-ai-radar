@@ -7,6 +7,7 @@ from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from dotenv import load_dotenv
 from fastapi import FastAPI
 
+from src.api.routes.briefing import router as briefing_router
 from src.api.routes.trigger import router as trigger_router
 from src.pipeline.scout import run_scout_pipeline
 
@@ -41,6 +42,7 @@ app = FastAPI(
 )
 
 app.include_router(trigger_router)
+app.include_router(briefing_router)
 
 
 @app.get("/health")

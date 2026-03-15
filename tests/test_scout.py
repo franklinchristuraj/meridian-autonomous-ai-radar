@@ -417,6 +417,7 @@ MOCK_SCORE_RESULT = {
 }
 
 
+@patch("src.pipeline.scout._run_briefing_pipeline")
 @patch("src.pipeline.scout.write_heartbeat")
 @patch("src.pipeline.scout.write_signal")
 @patch("src.pipeline.scout.assign_tier", return_value="BRIEF")
@@ -429,7 +430,7 @@ MOCK_SCORE_RESULT = {
 @patch("src.pipeline.scout.get_client")
 def test_run_scout_pipeline_happy_path(
     mock_get_client, mock_fetch, mock_keywords, mock_filter,
-    mock_exists, mock_top, mock_score, mock_tier, mock_write, mock_heartbeat
+    mock_exists, mock_top, mock_score, mock_tier, mock_write, mock_heartbeat, mock_briefing
 ):
     """Happy path: fetch -> keywords -> filter -> score loop -> write -> heartbeat. Client closed."""
     papers = [
@@ -450,6 +451,7 @@ def test_run_scout_pipeline_happy_path(
     mock_client.close.assert_called_once()
 
 
+@patch("src.pipeline.scout._run_briefing_pipeline")
 @patch("src.pipeline.scout.write_heartbeat")
 @patch("src.pipeline.scout.write_signal")
 @patch("src.pipeline.scout.assign_tier", return_value="VAULT")
@@ -462,7 +464,7 @@ def test_run_scout_pipeline_happy_path(
 @patch("src.pipeline.scout.get_client")
 def test_run_scout_pipeline_skips_duplicates(
     mock_get_client, mock_fetch, mock_keywords, mock_filter,
-    mock_exists, mock_top, mock_score, mock_tier, mock_write, mock_heartbeat
+    mock_exists, mock_top, mock_score, mock_tier, mock_write, mock_heartbeat, mock_briefing
 ):
     """Paper 2 is a duplicate — score_paper not called for it."""
     papers = [
@@ -483,6 +485,7 @@ def test_run_scout_pipeline_skips_duplicates(
     mock_heartbeat.assert_called_once_with(3, 2)
 
 
+@patch("src.pipeline.scout._run_briefing_pipeline")
 @patch("src.pipeline.scout.write_heartbeat")
 @patch("src.pipeline.scout.write_signal")
 @patch("src.pipeline.scout.assign_tier", return_value="VAULT")
@@ -495,7 +498,7 @@ def test_run_scout_pipeline_skips_duplicates(
 @patch("src.pipeline.scout.get_client")
 def test_run_scout_pipeline_score_failure_continues(
     mock_get_client, mock_fetch, mock_keywords, mock_filter,
-    mock_exists, mock_top, mock_score, mock_tier, mock_write, mock_heartbeat
+    mock_exists, mock_top, mock_score, mock_tier, mock_write, mock_heartbeat, mock_briefing
 ):
     """Score failure for paper 2 is logged and skipped; pipeline continues; heartbeat written."""
     papers = [
