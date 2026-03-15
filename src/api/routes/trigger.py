@@ -18,6 +18,8 @@ class SeedPayload(BaseModel):
     url: str | None = None
     notes: str | None = None
     abstract: str | None = None
+    body: str | None = None
+    source: str | None = None
 
 
 @router.post("/trigger", status_code=202)

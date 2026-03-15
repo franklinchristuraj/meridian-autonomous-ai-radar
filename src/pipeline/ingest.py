@@ -22,6 +22,8 @@ def ingest_manual_seed(data: dict) -> str:
             - url (optional): str
             - notes (optional): str — stored as abstract if no abstract provided
             - abstract (optional): str — takes precedence over notes
+            - body (optional): str — full text body of the article
+            - source (optional): str — origin label (e.g. "make", "slack", "manual")
 
     Returns:
         UUID string of the created Signal, or the existing UUID if duplicate.
@@ -53,6 +55,10 @@ def ingest_manual_seed(data: dict) -> str:
             "tier": "BRIEF",
             "score": 0.0,
         }
+        if data.get("body"):
+            signal_data["body"] = data["body"]
+        if data.get("source"):
+            signal_data["source"] = data["source"]
 
         result_uuid = signals.data.insert(signal_data)
         logger.info(f"ingest_manual_seed: inserted signal uuid={result_uuid} title={title!r}")

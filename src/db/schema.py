@@ -10,6 +10,7 @@ def init_schema(client: weaviate.WeaviateClient) -> None:
     _create_feedback(client)
     _create_briefings(client)
     _migrate_signals_reasoning(client)
+    _migrate_signals_body_source(client)
 
 
 
@@ -30,6 +31,8 @@ def _create_signals(client: weaviate.WeaviateClient) -> None:
             Property(name="status",              data_type=DataType.TEXT),   # pending/scored/archived
             Property(name="arxiv_id",            data_type=DataType.TEXT),
             Property(name="matched_pattern_ids", data_type=DataType.TEXT_ARRAY),
+            Property(name="body",               data_type=DataType.TEXT),
+            Property(name="source",             data_type=DataType.TEXT),
         ],
     )
 
@@ -44,6 +47,18 @@ def _migrate_signals_reasoning(client: weaviate.WeaviateClient) -> None:
     except Exception:
         # Property already exists — safe to ignore
         pass
+
+
+def _migrate_signals_body_source(client: weaviate.WeaviateClient) -> None:
+    """Idempotent migration: add body and source TEXT properties to Signals if missing."""
+    if not client.collections.exists("Signals"):
+        return
+    signals = client.collections.get("Signals")
+    for prop_name in ("body", "source"):
+        try:
+            signals.config.add_property(Property(name=prop_name, data_type=DataType.TEXT))
+        except Exception:
+            pass
 
 
 def _create_patterns(client: weaviate.WeaviateClient) -> None:
