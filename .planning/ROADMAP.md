@@ -85,4 +85,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 | 1. Foundation | 3/3 | Complete   | 2026-03-14 |
 | 2. Scout Pipeline | 3/3 | Complete   | 2026-03-15 |
 | 3. Intelligence + Briefing | 2/2 | Complete   | 2026-03-15 |
-| 4. Vault Integration | 0/2 | Not started | - |
+| 4. Vault Integration | 1/2 | In progress | - |

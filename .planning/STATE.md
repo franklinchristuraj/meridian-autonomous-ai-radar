@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: completed
-stopped_at: Phase 4 context gathered
-last_updated: "2026-03-15T20:43:30.721Z"
-last_activity: "2026-03-15 — Completed plan 03-02 (Briefing agent: Sonnet narrative generation, 5 API endpoints, Scout wiring, 86 tests passing)"
+status: in_progress
+stopped_at: Completed 04-01 (Translator pipeline)
+last_updated: "2026-03-16T07:46:00Z"
+last_activity: "2026-03-16 — Completed plan 04-01 (Translator pipeline: VAULT signal fetch, 3-seed cap, duplicate detection, seed note rendering, 24 tests)"
 progress:
   total_phases: 4
   completed_phases: 3
-  total_plans: 8
-  completed_plans: 8
-  percent: 89
+  total_plans: 9
+  completed_plans: 9
+  percent: 100
 ---
 
 # Project State
@@ -21,16 +21,16 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-13)
 
 **Core value:** Every morning, a useful briefing surfaces AI signals worth my attention — without me scanning anything manually.
-**Current focus:** Phase 3 — Intelligence + Briefing
+**Current focus:** Phase 4 — Vault Integration
 
 ## Current Position
 
-Phase: 3 of 4 (Intelligence + Briefing) — IN PROGRESS
-Plan: 2 of 3 in current phase (03-01 and 03-02 done)
-Status: Plan 03-02 complete — Briefing agent with narrative generation and API routes
-Last activity: 2026-03-15 — Completed plan 03-02 (Briefing agent: Sonnet narrative generation, 5 API endpoints, Scout wiring, 86 tests passing)
+Phase: 4 of 4 (Vault Integration) — IN PROGRESS
+Plan: 1 of 1 in current phase (04-01 done)
+Status: Plan 04-01 complete — Translator pipeline with VAULT signal fetch, seed note rendering, 24 tests
+Last activity: 2026-03-16 — Completed plan 04-01 (Translator pipeline: VAULT signal fetch, 3-seed cap, duplicate detection, seed note rendering, 24 tests)
 
-Progress: [████████░░] 89% (8/9 plans complete)
+Progress: [██████████] 100% (9/9 plans complete)
 
 ## Performance Metrics
 
@@ -55,6 +55,7 @@ Progress: [████████░░] 89% (8/9 plans complete)
 | Phase 02-scout-pipeline P03 | 20 | 2 tasks | 6 files |
 | Phase 03-intelligence-briefing P01 | 25 | 1 tasks (TDD) | 3 files |
 | Phase 03-intelligence-briefing P02 | 35 | 2 tasks (TDD) | 7 files |
+| Phase 04-vault-integration P01 | 15 | 1 task (TDD) | 3 files |
 
 ## Accumulated Context
 
@@ -83,6 +84,10 @@ Recent decisions affecting current work:
 - [03-02]: generate_briefing_narrative enforces BRIEF-first ordering and 10-item cap client-side (not relying on Sonnet output ordering)
 - [03-02]: write_briefing uses delete+reinsert for date deduplication, consistent with existing idempotency patterns
 - [03-02]: Staleness threshold is 25 hours (not 24) to allow for slight scheduling drift without false stale flags
+- [04-01]: get_vault_seeds_path called OUTSIDE try/except so misconfiguration raises immediately, not silently
+- [04-01]: Confidence filtering done post-query in Python (not Weaviate filter) to handle None values gracefully
+- [04-01]: Slug collision handled with -2, -3 suffix loop (simple, no UUID needed)
+- [04-01]: arxiv_url extracted from frontmatter via regex (no YAML parser dependency)
 
 ### Pending Todos
 
@@ -96,6 +101,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-15T20:43:30.714Z
-Stopped at: Phase 4 context gathered
-Resume file: .planning/phases/04-vault-integration/04-CONTEXT.md
+Last session: 2026-03-16T07:46:00Z
+Stopped at: Completed 04-01-PLAN.md (Translator pipeline)
+Resume file: .planning/phases/04-vault-integration/04-01-SUMMARY.md
