@@ -3,9 +3,9 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: in_progress
-stopped_at: Completed 04-01 (Translator pipeline)
-last_updated: "2026-03-16T07:46:00Z"
-last_activity: "2026-03-16 — Completed plan 04-01 (Translator pipeline: VAULT signal fetch, 3-seed cap, duplicate detection, seed note rendering, 24 tests)"
+stopped_at: Completed 04-02 (Vault API routes + briefing-translator chain)
+last_updated: "2026-03-16T08:13:00Z"
+last_activity: "2026-03-16 — Completed plan 04-02 (Vault API routes, router registration, briefing-to-translator chain, 116 tests pass)"
 progress:
   total_phases: 4
   completed_phases: 3
@@ -25,10 +25,10 @@ See: .planning/PROJECT.md (updated 2026-03-13)
 
 ## Current Position
 
-Phase: 4 of 4 (Vault Integration) — IN PROGRESS
-Plan: 1 of 1 in current phase (04-01 done)
-Status: Plan 04-01 complete — Translator pipeline with VAULT signal fetch, seed note rendering, 24 tests
-Last activity: 2026-03-16 — Completed plan 04-01 (Translator pipeline: VAULT signal fetch, 3-seed cap, duplicate detection, seed note rendering, 24 tests)
+Phase: 4 of 4 (Vault Integration) — COMPLETE
+Plan: 2 of 2 in current phase (04-01 done, 04-02 done)
+Status: Plan 04-02 complete — Vault API routes, router registration, briefing-to-translator chain, 116 tests
+Last activity: 2026-03-16 — Completed plan 04-02 (Vault API routes, router registration, briefing-to-translator chain, 116 tests pass)
 
 Progress: [██████████] 100% (9/9 plans complete)
 
@@ -56,6 +56,7 @@ Progress: [██████████] 100% (9/9 plans complete)
 | Phase 03-intelligence-briefing P01 | 25 | 1 tasks (TDD) | 3 files |
 | Phase 03-intelligence-briefing P02 | 35 | 2 tasks (TDD) | 7 files |
 | Phase 04-vault-integration P01 | 15 | 1 task (TDD) | 3 files |
+| Phase 04-vault-integration P02 | 3 | 2 tasks (TDD+auto) | 5 files |
 
 ## Accumulated Context
 
@@ -88,6 +89,8 @@ Recent decisions affecting current work:
 - [04-01]: Confidence filtering done post-query in Python (not Weaviate filter) to handle None values gracefully
 - [04-01]: Slug collision handled with -2, -3 suffix loop (simple, no UUID needed)
 - [04-01]: arxiv_url extracted from frontmatter via regex (no YAML parser dependency)
+- [04-02]: Vault route tests patch at src.pipeline.translator (canonical module) not src.api.routes.vault — lazy imports inside route handlers resolve at call time
+- [04-02]: _run_translator_pipeline() placed inside try block so translator errors propagate cleanly via existing finally clause
 
 ### Pending Todos
 
@@ -101,6 +104,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-16T07:46:00Z
-Stopped at: Completed 04-01-PLAN.md (Translator pipeline)
-Resume file: .planning/phases/04-vault-integration/04-01-SUMMARY.md
+Last session: 2026-03-16T08:13:00Z
+Stopped at: Completed 04-02-PLAN.md (Vault API routes + briefing-translator chain)
+Resume file: .planning/phases/04-vault-integration/04-02-SUMMARY.md
