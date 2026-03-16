@@ -220,6 +220,12 @@ def write_briefing_heartbeat(signal_count: int, cluster_count: int) -> None:
 # Pipeline orchestrator
 # ---------------------------------------------------------------------------
 
+def _run_translator_pipeline() -> None:
+    """Delegate to run_translator_pipeline (lazy import avoids circular deps)."""
+    from src.pipeline.translator import run_translator_pipeline
+    run_translator_pipeline()
+
+
 def run_analyst_briefing_pipeline() -> None:
     """Orchestrate Analyst + Briefing pipeline end-to-end.
 
@@ -263,6 +269,7 @@ def run_analyst_briefing_pipeline() -> None:
 
         cluster_count = len(clusters.get("clusters", []))
         write_briefing_heartbeat(len(signals), cluster_count)
+        _run_translator_pipeline()
         logger.info(f"Briefing pipeline complete: {cluster_count} clusters, {len(narrative.get('items', []))} items")
     finally:
         client.close()

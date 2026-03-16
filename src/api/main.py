@@ -9,6 +9,7 @@ from fastapi import FastAPI
 
 from src.api.routes.briefing import router as briefing_router
 from src.api.routes.trigger import router as trigger_router
+from src.api.routes.vault import router as vault_router
 from src.pipeline.scout import run_scout_pipeline
 
 load_dotenv()
@@ -43,6 +44,7 @@ app = FastAPI(
 
 app.include_router(trigger_router)
 app.include_router(briefing_router)
+app.include_router(vault_router)
 
 
 @app.get("/health")

@@ -310,6 +310,7 @@ class TestRunAnalystBriefingPipeline:
             patch("src.pipeline.briefing.generate_briefing_narrative", return_value=SAMPLE_NARRATIVE) as mock_gen,
             patch("src.pipeline.briefing.write_briefing") as mock_write_briefing,
             patch("src.pipeline.briefing.write_briefing_heartbeat") as mock_heartbeat,
+            patch("src.pipeline.briefing._run_translator_pipeline"),
         ):
             # No existing heartbeat (first run)
             mock_hb_path.exists.return_value = False
@@ -326,6 +327,30 @@ class TestRunAnalystBriefingPipeline:
             len(SAMPLE_SIGNALS), len(SAMPLE_CLUSTERS["clusters"])
         )
         mock_client.close.assert_called_once()
+
+    def test_briefing_triggers_translator(self):
+        """run_analyst_briefing_pipeline calls _run_translator_pipeline once on success."""
+        from src.pipeline.briefing import run_analyst_briefing_pipeline
+
+        mock_client = self._make_pipeline_mocks()
+
+        with (
+            patch("src.pipeline.briefing.BRIEFING_HEARTBEAT_PATH") as mock_hb_path,
+            patch("src.pipeline.briefing.get_client", return_value=mock_client),
+            patch("src.pipeline.briefing.fetch_todays_signals", return_value=SAMPLE_SIGNALS),
+            patch("src.pipeline.briefing.fetch_recent_signals", return_value=[]),
+            patch("src.pipeline.briefing.cluster_signals", return_value=SAMPLE_CLUSTERS),
+            patch("src.pipeline.briefing.write_cluster_ids"),
+            patch("src.pipeline.briefing.generate_briefing_narrative", return_value=SAMPLE_NARRATIVE),
+            patch("src.pipeline.briefing.write_briefing"),
+            patch("src.pipeline.briefing.write_briefing_heartbeat"),
+            patch("src.pipeline.briefing._run_translator_pipeline") as mock_translator,
+        ):
+            mock_hb_path.exists.return_value = False
+
+            run_analyst_briefing_pipeline()
+
+        mock_translator.assert_called_once()
 
     def test_pipeline_concurrency_guard(self):
         """Returns early if heartbeat shows status=running."""
