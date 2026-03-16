@@ -24,9 +24,13 @@ from pathlib import Path
 from weaviate import WeaviateClient
 from weaviate.classes.query import Filter
 
+from opentelemetry import trace
+from opentelemetry.trace import StatusCode
+
 from src.db.client import get_client
 
 logger = logging.getLogger(__name__)
+_tracer = trace.get_tracer("meridian.pipeline")
 
 # ---------------------------------------------------------------------------
 # Constants
@@ -248,37 +252,45 @@ def run_translator_pipeline() -> None:
 
     client = get_client()
     try:
-        signals = fetch_vault_signals(client)
-        candidates = rank_and_cap(signals, max_n=3)
-        deposited_urls = _load_deposited_urls(seeds_path)
+        with _tracer.start_as_current_span("meridian.stage.translator") as span:
+            try:
+                signals = fetch_vault_signals(client)
+                span.set_attribute("translator.vault_signals_found", len(signals))
+                candidates = rank_and_cap(signals, max_n=3)
+                span.set_attribute("translator.candidates", len(candidates))
+                deposited_urls = _load_deposited_urls(seeds_path)
 
-        deposited = 0
-        for signal in candidates:
-            if deposited >= 3:
-                break
-            if signal["source_url"] in deposited_urls:
-                logger.info(f"Translator: skipping duplicate {signal['source_url']}")
-                continue
+                deposited = 0
+                for signal in candidates:
+                    if deposited >= 3:
+                        break
+                    if signal["source_url"] in deposited_urls:
+                        logger.info(f"Translator: skipping duplicate {signal['source_url']}")
+                        continue
 
-            # Generate filename with collision handling
-            base_slug = slugify_title(signal["title"])
-            filename = base_slug + ".md"
-            counter = 2
-            while (seeds_path / filename).exists():
-                filename = f"{base_slug}-{counter}.md"
-                counter += 1
+                    # Generate filename with collision handling
+                    base_slug = slugify_title(signal["title"])
+                    filename = base_slug + ".md"
+                    counter = 2
+                    while (seeds_path / filename).exists():
+                        filename = f"{base_slug}-{counter}.md"
+                        counter += 1
 
-            content = render_seed_note(signal)
-            (seeds_path / filename).write_text(content)
-            deposited += 1
-            logger.info(f"Translator: deposited {filename}")
+                    content = render_seed_note(signal)
+                    (seeds_path / filename).write_text(content)
+                    deposited += 1
+                    logger.info(f"Translator: deposited {filename}")
 
-        write_translator_heartbeat(deposited)
-        logger.info(f"Translator pipeline complete: {deposited} seeds deposited")
+                span.set_attribute("translator.seeds_deposited", deposited)
+                write_translator_heartbeat(deposited)
+                span.set_status(StatusCode.OK)
+                logger.info(f"Translator pipeline complete: {deposited} seeds deposited")
 
-    except Exception as e:
-        logger.error(f"Translator pipeline failed: {e}")
-        # Do NOT re-raise — pipeline failure should not propagate
+            except Exception as e:
+                span.record_exception(e)
+                span.set_status(StatusCode.ERROR, str(e))
+                logger.error(f"Translator pipeline failed: {e}")
+                # Do NOT re-raise — pipeline failure should not propagate
 
     finally:
         client.close()

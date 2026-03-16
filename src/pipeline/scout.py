@@ -14,10 +14,14 @@ import arxiv
 from weaviate import WeaviateClient
 from weaviate.classes.query import Filter, MetadataQuery
 
+from opentelemetry import trace
+from opentelemetry.trace import StatusCode
+
 from src.db.client import get_client
 from src.runtime.claude_runner import invoke_claude
 
 logger = logging.getLogger(__name__)
+_tracer = trace.get_tracer("meridian.pipeline")
 
 
 def _run_briefing_pipeline() -> None:
@@ -269,40 +273,51 @@ def run_scout_pipeline() -> None:
     target_date = date.today() - timedelta(days=1)
     client = get_client()
     try:
-        papers = fetch_arxiv_papers(target_date)
-        keywords = fetch_pattern_keywords(client)
-        filtered = keyword_filter(papers, keywords, cap=50)
-        logger.info(f"Scout: {len(papers)} fetched, {len(filtered)} after keyword filter")
-
-        scored = 0
-        for paper in filtered:
-            arxiv_id = normalize_arxiv_id(paper.entry_id)
-            if arxiv_id_exists(client, arxiv_id):
-                continue
+        with _tracer.start_as_current_span("meridian.stage.scout") as span:
             try:
-                patterns = get_top_patterns(client, paper.title, paper.summary)
-                result = score_paper(paper.title, paper.summary, patterns)
-                score = float(result["score"])
-                tier = assign_tier(score)
-                write_signal(client, {
-                    "arxiv_id": arxiv_id,
-                    "title": paper.title,
-                    "abstract": paper.summary,
-                    "source_url": paper.entry_id,
-                    "published_date": paper.published.isoformat(),
-                    "score": score,
-                    "tier": tier,
-                    "status": "scored",
-                    "matched_pattern_ids": [p["uuid"] for p in patterns],
-                    "reasoning": result.get("reasoning", ""),
-                })
-                scored += 1
-            except Exception as e:
-                logger.error(f"Scout: failed to score {arxiv_id}: {e}")
-                continue
+                papers = fetch_arxiv_papers(target_date)
+                span.set_attribute("scout.papers_fetched", len(papers))
+                keywords = fetch_pattern_keywords(client)
+                filtered = keyword_filter(papers, keywords, cap=50)
+                span.set_attribute("scout.papers_filtered", len(filtered))
+                logger.info(f"Scout: {len(papers)} fetched, {len(filtered)} after keyword filter")
 
-        write_heartbeat(len(papers), scored)
-        logger.info(f"Scout complete: {scored} signals written")
-        _run_briefing_pipeline()
+                scored = 0
+                for paper in filtered:
+                    arxiv_id = normalize_arxiv_id(paper.entry_id)
+                    if arxiv_id_exists(client, arxiv_id):
+                        continue
+                    try:
+                        patterns = get_top_patterns(client, paper.title, paper.summary)
+                        result = score_paper(paper.title, paper.summary, patterns)
+                        score = float(result["score"])
+                        tier = assign_tier(score)
+                        write_signal(client, {
+                            "arxiv_id": arxiv_id,
+                            "title": paper.title,
+                            "abstract": paper.summary,
+                            "source_url": paper.entry_id,
+                            "published_date": paper.published.isoformat(),
+                            "score": score,
+                            "tier": tier,
+                            "status": "scored",
+                            "matched_pattern_ids": [p["uuid"] for p in patterns],
+                            "reasoning": result.get("reasoning", ""),
+                        })
+                        scored += 1
+                    except Exception as e:
+                        logger.error(f"Scout: failed to score {arxiv_id}: {e}")
+                        span.set_attribute("scout.last_error", str(e))
+                        continue
+
+                span.set_attribute("scout.signals_scored", scored)
+                write_heartbeat(len(papers), scored)
+                span.set_status(StatusCode.OK)
+                logger.info(f"Scout complete: {scored} signals written")
+                _run_briefing_pipeline()
+            except Exception as e:
+                span.record_exception(e)
+                span.set_status(StatusCode.ERROR, str(e))
+                raise
     finally:
         client.close()

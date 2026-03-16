@@ -18,9 +18,13 @@ from datetime import datetime, timedelta, timezone
 from weaviate import WeaviateClient
 from weaviate.classes.query import Filter
 
+from opentelemetry import trace
+from opentelemetry.trace import StatusCode
+
 from src.runtime.claude_runner import invoke_claude
 
 logger = logging.getLogger(__name__)
+_tracer = trace.get_tracer("meridian.pipeline")
 
 # ---------------------------------------------------------------------------
 # Prompt template
@@ -181,18 +185,32 @@ def cluster_signals(signals: list[dict], history: list[dict], client: WeaviateCl
                     matched_pattern_ids, trend_annotation)
           singletons: list of uuid strings
     """
-    signals_block = _build_signals_block(signals)
-    history_block = _build_history_block(history)
+    with _tracer.start_as_current_span("meridian.stage.analyst") as span:
+        try:
+            span.set_attribute("analyst.signals_count", len(signals))
+            span.set_attribute("analyst.history_count", len(history))
 
-    prompt = ANALYST_PROMPT_TEMPLATE.format(
-        signals_block=signals_block,
-        history_block=history_block,
-    )
+            signals_block = _build_signals_block(signals)
+            history_block = _build_history_block(history)
 
-    raw = invoke_claude(prompt, model="claude-sonnet-4-5", timeout=300)
-    result_text = raw["result"]
+            prompt = ANALYST_PROMPT_TEMPLATE.format(
+                signals_block=signals_block,
+                history_block=history_block,
+            )
 
-    return _parse_cluster_response(result_text)
+            raw = invoke_claude(prompt, model="claude-sonnet-4-5", timeout=300)
+            result_text = raw["result"]
+
+            result = _parse_cluster_response(result_text)
+
+            span.set_attribute("analyst.clusters_found", len(result.get("clusters", [])))
+            span.set_attribute("analyst.singletons_count", len(result.get("singletons", [])))
+            span.set_status(StatusCode.OK)
+            return result
+        except Exception as e:
+            span.record_exception(e)
+            span.set_status(StatusCode.ERROR, str(e))
+            raise
 
 
 # ---------------------------------------------------------------------------

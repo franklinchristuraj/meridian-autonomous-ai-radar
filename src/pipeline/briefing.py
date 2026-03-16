@@ -23,9 +23,13 @@ from src.pipeline.analyst import (
     fetch_todays_signals,
     write_cluster_ids,
 )
+from opentelemetry import trace
+from opentelemetry.trace import StatusCode
+
 from src.runtime.claude_runner import invoke_claude
 
 logger = logging.getLogger(__name__)
+_tracer = trace.get_tracer("meridian.pipeline")
 
 # ---------------------------------------------------------------------------
 # Constants
@@ -257,19 +261,29 @@ def run_analyst_briefing_pipeline() -> None:
 
     client = get_client()
     try:
-        signals = fetch_todays_signals(client)
-        history = fetch_recent_signals(client, days=7)
-        logger.info(f"Briefing pipeline: {len(signals)} signals, {len(history)} history items")
+        with _tracer.start_as_current_span("meridian.stage.briefing") as span:
+            try:
+                signals = fetch_todays_signals(client)
+                span.set_attribute("briefing.signals_processed", len(signals))
+                history = fetch_recent_signals(client, days=7)
+                logger.info(f"Briefing pipeline: {len(signals)} signals, {len(history)} history items")
 
-        clusters = cluster_signals(signals, history, client)
-        write_cluster_ids(client, clusters)
+                clusters = cluster_signals(signals, history, client)
+                span.set_attribute("briefing.clusters_generated", len(clusters.get("clusters", [])))
+                write_cluster_ids(client, clusters)
 
-        narrative = generate_briefing_narrative(clusters, signals)
-        write_briefing(client, narrative, clusters)
+                narrative = generate_briefing_narrative(clusters, signals)
+                span.set_attribute("briefing.items_generated", len(narrative.get("items", [])))
+                write_briefing(client, narrative, clusters)
 
-        cluster_count = len(clusters.get("clusters", []))
-        write_briefing_heartbeat(len(signals), cluster_count)
-        _run_translator_pipeline()
-        logger.info(f"Briefing pipeline complete: {cluster_count} clusters, {len(narrative.get('items', []))} items")
+                cluster_count = len(clusters.get("clusters", []))
+                write_briefing_heartbeat(len(signals), cluster_count)
+                span.set_status(StatusCode.OK)
+                _run_translator_pipeline()
+                logger.info(f"Briefing pipeline complete: {cluster_count} clusters, {len(narrative.get('items', []))} items")
+            except Exception as e:
+                span.record_exception(e)
+                span.set_status(StatusCode.ERROR, str(e))
+                raise
     finally:
         client.close()
