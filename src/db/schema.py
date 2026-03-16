@@ -12,6 +12,7 @@ def init_schema(client: weaviate.WeaviateClient) -> None:
     _migrate_signals_reasoning(client)
     _migrate_signals_body_source(client)
     _migrate_signals_cluster_id(client)
+    _migrate_signals_confidence(client)
 
 
 
@@ -57,6 +58,18 @@ def _migrate_signals_cluster_id(client: weaviate.WeaviateClient) -> None:
     signals = client.collections.get("Signals")
     try:
         signals.config.add_property(Property(name="cluster_id", data_type=DataType.TEXT))
+    except Exception:
+        # Property already exists — safe to ignore
+        pass
+
+
+def _migrate_signals_confidence(client: weaviate.WeaviateClient) -> None:
+    """Idempotent migration: add confidence NUMBER property to Signals if missing."""
+    if not client.collections.exists("Signals"):
+        return
+    signals = client.collections.get("Signals")
+    try:
+        signals.config.add_property(Property(name="confidence", data_type=DataType.NUMBER))
     except Exception:
         # Property already exists — safe to ignore
         pass
