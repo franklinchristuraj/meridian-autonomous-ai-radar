@@ -25,7 +25,7 @@ def test_invoke_claude_returns_parsed_json():
         stdout=MOCK_SUCCESS_STDOUT,
         stderr="",
     )
-    with patch("subprocess.run", return_value=mock_result) as mock_run:
+    with patch("src.runtime.claude_runner.subprocess.run", return_value=mock_result) as mock_run:
         result = invoke_claude("test prompt")
 
     assert result["result"] == "test output"
@@ -43,7 +43,7 @@ def test_invoke_claude_raises_on_nonzero_exit():
         stdout="",
         stderr="error message from claude",
     )
-    with patch("subprocess.run", return_value=mock_result):
+    with patch("src.runtime.claude_runner.subprocess.run", return_value=mock_result):
         with pytest.raises(RuntimeError) as exc_info:
             invoke_claude("test prompt")
 
@@ -58,6 +58,38 @@ def test_invoke_claude_raises_on_invalid_json():
         stdout="not valid json at all",
         stderr="",
     )
-    with patch("subprocess.run", return_value=mock_result):
+    with patch("src.runtime.claude_runner.subprocess.run", return_value=mock_result):
         with pytest.raises((json.JSONDecodeError, ValueError)):
             invoke_claude("test prompt")
+
+
+class TestInvokeClaudeSpan:
+    """OBS-02: invoke_claude() creates span with LLM attributes."""
+
+    @patch("src.runtime.claude_runner.subprocess.run")
+    def test_invoke_claude_creates_llm_span(self, mock_run, otel_test_provider):
+        mock_run.return_value = CompletedProcess(
+            args=["claude"],
+            returncode=0,
+            stdout=json.dumps({
+                "result": "test output",
+                "model": "claude-sonnet-4-5",
+                "usage": {"input_tokens": 100, "output_tokens": 50},
+                "cost_usd": 0.003,
+            }),
+            stderr="",
+        )
+
+        invoke_claude("test prompt", model="claude-sonnet-4-5")
+
+        spans = otel_test_provider.get_finished_spans()
+        llm_spans = [s for s in spans if s.name == "invoke_claude"]
+        assert len(llm_spans) == 1
+        attrs = dict(llm_spans[0].attributes)
+        assert attrs["llm.model_name"] == "claude-sonnet-4-5"
+        assert attrs["llm.token_count.prompt"] == 100
+        assert attrs["llm.token_count.completion"] == 50
+        assert attrs["llm.token_count.total"] == 150
+        assert attrs["llm.cost_usd"] == 0.003
+        assert "test prompt" in attrs["input.value"]
+        assert "test output" in attrs["output.value"]

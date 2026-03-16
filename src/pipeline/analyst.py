@@ -24,7 +24,6 @@ from opentelemetry.trace import StatusCode
 from src.runtime.claude_runner import invoke_claude
 
 logger = logging.getLogger(__name__)
-_tracer = trace.get_tracer("meridian.pipeline")
 
 # ---------------------------------------------------------------------------
 # Prompt template
@@ -185,7 +184,7 @@ def cluster_signals(signals: list[dict], history: list[dict], client: WeaviateCl
                     matched_pattern_ids, trend_annotation)
           singletons: list of uuid strings
     """
-    with _tracer.start_as_current_span("meridian.stage.analyst") as span:
+    with trace.get_tracer("meridian.pipeline").start_as_current_span("meridian.stage.analyst") as span:
         try:
             span.set_attribute("analyst.signals_count", len(signals))
             span.set_attribute("analyst.history_count", len(history))

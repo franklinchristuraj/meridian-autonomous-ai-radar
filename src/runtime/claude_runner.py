@@ -7,9 +7,6 @@ from opentelemetry import trace
 from opentelemetry.trace import StatusCode
 from openinference.semconv.trace import SpanAttributes
 
-_tracer = trace.get_tracer("meridian.llm")
-
-
 def invoke_claude(
     prompt: str,
     model: str = "claude-sonnet-4-5",
@@ -29,7 +26,7 @@ def invoke_claude(
         RuntimeError: If the CLI exits with a non-zero return code.
         json.JSONDecodeError: If stdout is not valid JSON.
     """
-    with _tracer.start_as_current_span("invoke_claude") as span:
+    with trace.get_tracer("meridian.llm").start_as_current_span("invoke_claude") as span:
         span.set_attribute(SpanAttributes.OPENINFERENCE_SPAN_KIND, "LLM")
         span.set_attribute(SpanAttributes.LLM_MODEL_NAME, model)
         # Truncate input to 32KB to avoid OTLP export size issues

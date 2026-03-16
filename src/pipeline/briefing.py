@@ -29,7 +29,6 @@ from opentelemetry.trace import StatusCode
 from src.runtime.claude_runner import invoke_claude
 
 logger = logging.getLogger(__name__)
-_tracer = trace.get_tracer("meridian.pipeline")
 
 # ---------------------------------------------------------------------------
 # Constants
@@ -261,7 +260,7 @@ def run_analyst_briefing_pipeline() -> None:
 
     client = get_client()
     try:
-        with _tracer.start_as_current_span("meridian.stage.briefing") as span:
+        with trace.get_tracer("meridian.pipeline").start_as_current_span("meridian.stage.briefing") as span:
             try:
                 signals = fetch_todays_signals(client)
                 span.set_attribute("briefing.signals_processed", len(signals))

@@ -30,7 +30,6 @@ from opentelemetry.trace import StatusCode
 from src.db.client import get_client
 
 logger = logging.getLogger(__name__)
-_tracer = trace.get_tracer("meridian.pipeline")
 
 # ---------------------------------------------------------------------------
 # Constants
@@ -252,7 +251,7 @@ def run_translator_pipeline() -> None:
 
     client = get_client()
     try:
-        with _tracer.start_as_current_span("meridian.stage.translator") as span:
+        with trace.get_tracer("meridian.pipeline").start_as_current_span("meridian.stage.translator") as span:
             try:
                 signals = fetch_vault_signals(client)
                 span.set_attribute("translator.vault_signals_found", len(signals))

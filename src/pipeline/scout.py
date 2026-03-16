@@ -21,7 +21,6 @@ from src.db.client import get_client
 from src.runtime.claude_runner import invoke_claude
 
 logger = logging.getLogger(__name__)
-_tracer = trace.get_tracer("meridian.pipeline")
 
 
 def _run_briefing_pipeline() -> None:
@@ -273,7 +272,7 @@ def run_scout_pipeline() -> None:
     target_date = date.today() - timedelta(days=1)
     client = get_client()
     try:
-        with _tracer.start_as_current_span("meridian.stage.scout") as span:
+        with trace.get_tracer("meridian.pipeline").start_as_current_span("meridian.stage.scout") as span:
             try:
                 papers = fetch_arxiv_papers(target_date)
                 span.set_attribute("scout.papers_fetched", len(papers))
