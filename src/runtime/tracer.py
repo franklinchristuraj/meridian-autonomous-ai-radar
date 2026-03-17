@@ -39,7 +39,7 @@ def init_tracing(
     resolved_endpoint = (
         endpoint
         or os.getenv("PHOENIX_COLLECTOR_ENDPOINT")
-        or "http://localhost:6006/v1/traces"
+        or "https://phoenix.ziksaka.com/v1/traces"
     )
 
     api_key = os.getenv("PHOENIX_API_KEY")
