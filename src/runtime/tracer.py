@@ -30,6 +30,9 @@ def init_tracing(
                   then "http://localhost:6006/v1/traces".
         project_name: Project name shown in Phoenix UI.
 
+    Auth: If PHOENIX_API_KEY is set, it's passed as an authorization header
+    to the Phoenix collector. Required when Phoenix has auth enabled.
+
     This MUST be called before any spans are created (i.e., before
     APScheduler starts or any pipeline runs).
     """
@@ -39,12 +42,16 @@ def init_tracing(
         or "http://localhost:6006/v1/traces"
     )
 
+    api_key = os.getenv("PHOENIX_API_KEY")
+    headers = {"authorization": api_key} if api_key else None
+
     try:
         from phoenix.otel import register
 
         register(
             endpoint=resolved_endpoint,
             project_name=project_name,
+            headers=headers,
             batch=True,
         )
         logger.info(
